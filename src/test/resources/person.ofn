@@ -1,0 +1,165 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/test#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/test>
+
+Declaration(Class(:Activity))
+Declaration(Class(:AllMountainBike))
+Declaration(Class(:AutoAggressiveActivity))
+Declaration(Class(:Bike))
+Declaration(Class(:BikeLover))
+Declaration(Class(:BorderLiner))
+Declaration(Class(:Car))
+Declaration(Class(:CrossCountryBike))
+Declaration(Class(:DirtBike))
+Declaration(Class(:DownhillBike))
+Declaration(Class(:EnduroBike))
+Declaration(Class(:Father))
+Declaration(Class(:FemalePerson))
+Declaration(Class(:FreerideBike))
+Declaration(Class(:Gender))
+Declaration(Class(:Hermaphrodite))
+Declaration(Class(:MalePerson))
+Declaration(Class(:Man))
+Declaration(Class(:Mother))
+Declaration(Class(:MountainBike))
+Declaration(Class(:Parent))
+Declaration(Class(:Person))
+Declaration(Class(:RaceMountainBike))
+Declaration(Class(:TrailBike))
+Declaration(Class(:Undecided))
+Declaration(Class(:Vehicle))
+Declaration(Class(:Woman))
+Declaration(ObjectProperty(:engagedIn))
+Declaration(ObjectProperty(:hasChild))
+Declaration(ObjectProperty(:hasGender))
+Declaration(ObjectProperty(:loves))
+Declaration(NamedIndividual(:Female))
+Declaration(NamedIndividual(:Male))
+
+############################
+#   Classes
+############################
+
+# Class: :AllMountainBike (:AllMountainBike)
+
+EquivalentClasses(:AllMountainBike :EnduroBike)
+SubClassOf(:AllMountainBike :MountainBike)
+
+# Class: :AutoAggressiveActivity (:AutoAggressiveActivity)
+
+SubClassOf(:AutoAggressiveActivity :Activity)
+
+# Class: :Bike (:Bike)
+
+SubClassOf(:Bike :Vehicle)
+
+# Class: :BikeLover (:BikeLover)
+
+EquivalentClasses(:BikeLover ObjectAllValuesFrom(:loves :Bike))
+SubClassOf(:BikeLover :Person)
+
+# Class: :BorderLiner (:BorderLiner)
+
+SubClassOf(:BorderLiner ObjectSomeValuesFrom(:engagedIn :AutoAggressiveActivity))
+
+# Class: :Car (:Car)
+
+SubClassOf(:Car :Vehicle)
+
+# Class: :CrossCountryBike (:CrossCountryBike)
+
+SubClassOf(:CrossCountryBike :MountainBike)
+
+# Class: :DirtBike (:DirtBike)
+
+SubClassOf(:DirtBike :MountainBike)
+
+# Class: :DownhillBike (:DownhillBike)
+
+SubClassOf(:DownhillBike :MountainBike)
+
+# Class: :EnduroBike (:EnduroBike)
+
+SubClassOf(:EnduroBike :MountainBike)
+
+# Class: :Father (:Father)
+
+EquivalentClasses(:Father ObjectIntersectionOf(:Man :Parent))
+
+# Class: :FemalePerson (:FemalePerson)
+
+EquivalentClasses(:FemalePerson :Woman)
+EquivalentClasses(:FemalePerson ObjectHasValue(:hasGender :Female))
+SubClassOf(:FemalePerson :Person)
+
+# Class: :FreerideBike (:FreerideBike)
+
+SubClassOf(:FreerideBike :MountainBike)
+
+# Class: :Gender (:Gender)
+
+EquivalentClasses(:Gender ObjectOneOf(:Female :Male))
+
+# Class: :Hermaphrodite (:Hermaphrodite)
+
+EquivalentClasses(:Hermaphrodite ObjectExactCardinality(2 :hasGender :Gender))
+SubClassOf(:Hermaphrodite :Person)
+
+# Class: :MalePerson (:MalePerson)
+
+EquivalentClasses(:MalePerson :Man)
+EquivalentClasses(:MalePerson ObjectHasValue(:hasGender :Male))
+SubClassOf(:MalePerson :Person)
+
+# Class: :Man (:Man)
+
+SubClassOf(:Man :Person)
+
+# Class: :Mother (:Mother)
+
+EquivalentClasses(:Mother ObjectIntersectionOf(:Parent :Woman))
+
+# Class: :MountainBike (:MountainBike)
+
+SubClassOf(:MountainBike :Bike)
+
+# Class: :Parent (:Parent)
+
+EquivalentClasses(:Parent ObjectSomeValuesFrom(:hasChild :Person))
+
+# Class: :RaceMountainBike (:RaceMountainBike)
+
+SubClassOf(:RaceMountainBike :MountainBike)
+
+# Class: :TrailBike (:TrailBike)
+
+SubClassOf(:TrailBike :MountainBike)
+
+# Class: :Undecided (:Undecided)
+
+SubClassOf(:Undecided :Person)
+
+# Class: :Woman (:Woman)
+
+SubClassOf(:Woman :Person)
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :Female (:Female)
+
+
+# Individual: :Male (:Male)
+
+
+
+DifferentIndividuals(:Female :Male)
+)

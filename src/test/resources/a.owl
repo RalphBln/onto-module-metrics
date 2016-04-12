@@ -1,0 +1,66 @@
+Prefix(:=<http://www.example.org/a#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.example.org/a>
+
+Declaration(Class(:A1))
+Declaration(Class(:A11))
+Declaration(Class(:A12))
+Declaration(Class(:A13))
+Declaration(Class(:A2))
+Declaration(Class(:A21))
+Declaration(Class(:A22))
+Declaration(Class(:A23))
+Declaration(Class(:A3))
+Declaration(Class(:A31))
+Declaration(Class(:A32))
+Declaration(Class(:A33))
+Declaration(ObjectProperty(:r))
+
+############################
+#   Classes
+############################
+
+# Class: :A11 (:A11)
+
+SubClassOf(:A11 :A1)
+
+# Class: :A12 (:A12)
+
+SubClassOf(:A12 :A1)
+
+# Class: :A13 (:A13)
+
+SubClassOf(:A13 :A1)
+
+# Class: :A21 (:A21)
+
+SubClassOf(:A21 :A2)
+
+# Class: :A22 (:A22)
+
+SubClassOf(:A22 :A2)
+
+# Class: :A23 (:A23)
+
+SubClassOf(:A23 :A2)
+
+# Class: :A31 (:A31)
+
+SubClassOf(:A31 :A3)
+
+# Class: :A32 (:A32)
+
+SubClassOf(:A32 :A3)
+
+# Class: :A33 (:A33)
+
+SubClassOf(:A33 :A3)
+
+
+)

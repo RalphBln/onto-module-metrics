@@ -1,0 +1,246 @@
+Prefix(:=<http://example.org/people#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://example.org/people>
+
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#adult>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#animal>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#animal_lover>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#bus>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#bus_driver>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#cat>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#cat_liker>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#cat_owner>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#dog>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#dog_liker>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#dog_owner>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#driver>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#elderly>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#female>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#grownup>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#haulage_company>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#haulage_truck_driver>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#kid>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#lorry>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#lorry_driver>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#male>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#man>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#old_lady>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#person>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#pet_owner>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#tabloid>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#truck>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#van>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#van_driver>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#vehicle>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#white_thing>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#white_van_man>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#woman>))
+Declaration(Class(<http://cohse.semanticweb.org/ontologies/people#young>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#drives>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#has_father>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#has_mother>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#has_pet>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#likes>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#part_of>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#reads>))
+Declaration(ObjectProperty(<http://cohse.semanticweb.org/ontologies/people#works_for>))
+Declaration(NamedIndividual(<http://cohse.semanticweb.org/ontologies/people#Fred>))
+Declaration(NamedIndividual(<http://cohse.semanticweb.org/ontologies/people#Joe>))
+Declaration(NamedIndividual(<http://cohse.semanticweb.org/ontologies/people#Kevin>))
+Declaration(NamedIndividual(<http://cohse.semanticweb.org/ontologies/people#Mick>))
+Declaration(NamedIndividual(<http://cohse.semanticweb.org/ontologies/people#Minnie>))
+Declaration(NamedIndividual(<http://cohse.semanticweb.org/ontologies/people#Walt>))
+
+############################
+#   Object Properties
+############################
+
+# Object Property: <http://cohse.semanticweb.org/ontologies/people#has_father> (has_father)
+
+ObjectPropertyRange(<http://cohse.semanticweb.org/ontologies/people#has_father> <http://cohse.semanticweb.org/ontologies/people#man>)
+
+# Object Property: <http://cohse.semanticweb.org/ontologies/people#has_mother> (has_mother)
+
+ObjectPropertyRange(<http://cohse.semanticweb.org/ontologies/people#has_mother> <http://cohse.semanticweb.org/ontologies/people#woman>)
+
+# Object Property: <http://cohse.semanticweb.org/ontologies/people#has_pet> (has_pet)
+
+ObjectPropertyDomain(<http://cohse.semanticweb.org/ontologies/people#has_pet> <http://cohse.semanticweb.org/ontologies/people#person>)
+
+
+
+############################
+#   Classes
+############################
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#adult> (adult)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#adult> "Things that are adult.")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#adult> "adult")
+DisjointClasses(<http://cohse.semanticweb.org/ontologies/people#adult> <http://cohse.semanticweb.org/ontologies/people#young>)
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#animal_lover> (animal lover)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#animal_lover> "Someone who really likes animals")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#animal_lover> "animal lover")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#animal_lover> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectMinCardinality(3 <http://cohse.semanticweb.org/ontologies/people#has_pet>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#bus_driver> (bus driver)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#bus_driver> "Someone who drives a bus.")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#bus_driver> "bus driver")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#bus_driver> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#drives> <http://cohse.semanticweb.org/ontologies/people#bus>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#cat_liker> (cat liker)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#cat_liker> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#cat_liker> "cat liker")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#cat_liker> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#likes> <http://cohse.semanticweb.org/ontologies/people#cat>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#cat_owner> (cat owner)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#cat_owner> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#cat_owner> "cat owner")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#cat_owner> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#has_pet> <http://cohse.semanticweb.org/ontologies/people#cat>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#dog_liker> (dog liker)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#dog_liker> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#dog_liker> "dog liker")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#dog_liker> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#likes> <http://cohse.semanticweb.org/ontologies/people#dog>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#dog_owner> (dog owner)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#dog_owner> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#dog_owner> "dog owner")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#dog_owner> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#has_pet> <http://cohse.semanticweb.org/ontologies/people#dog>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#driver> (driver)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#driver> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#driver> "driver")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#driver> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#drives> <http://cohse.semanticweb.org/ontologies/people#vehicle>)))
+SubClassOf(<http://cohse.semanticweb.org/ontologies/people#driver> <http://cohse.semanticweb.org/ontologies/people#adult>)
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#elderly> (elderly)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#elderly> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#elderly> "elderly")
+SubClassOf(<http://cohse.semanticweb.org/ontologies/people#elderly> <http://cohse.semanticweb.org/ontologies/people#adult>)
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#female> (female)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#female> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#female> "female")
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#grownup> (grownup)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#grownup> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#grownup> "grownup")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#grownup> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#adult> <http://cohse.semanticweb.org/ontologies/people#person>))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#haulage_truck_driver> (haulage truck driver)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#haulage_truck_driver> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#haulage_truck_driver> "haulage truck driver")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#haulage_truck_driver> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#drives> <http://cohse.semanticweb.org/ontologies/people#truck>) ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#works_for> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#part_of> <http://cohse.semanticweb.org/ontologies/people#haulage_company>))))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#kid> (kid)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#kid> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#kid> "kid")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#kid> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> <http://cohse.semanticweb.org/ontologies/people#young>))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#lorry_driver> (lorry driver)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#lorry_driver> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#lorry_driver> "lorry driver")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#lorry_driver> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#drives> <http://cohse.semanticweb.org/ontologies/people#lorry>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#male> (male)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#male> "The class of all male things.")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#male> "male")
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#man> (man)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#man> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#man> "man")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#man> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#adult> <http://cohse.semanticweb.org/ontologies/people#male> <http://cohse.semanticweb.org/ontologies/people#person>))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#old_lady> (old lady)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#old_lady> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#old_lady> "old lady")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#old_lady> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#elderly> <http://cohse.semanticweb.org/ontologies/people#female> <http://cohse.semanticweb.org/ontologies/people#person>))
+SubClassOf(<http://cohse.semanticweb.org/ontologies/people#old_lady> ObjectIntersectionOf(ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#has_pet> <http://cohse.semanticweb.org/ontologies/people#animal>) ObjectAllValuesFrom(<http://cohse.semanticweb.org/ontologies/people#has_pet> <http://cohse.semanticweb.org/ontologies/people#cat>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#person> (person)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#person> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#person> "person")
+SubClassOf(<http://cohse.semanticweb.org/ontologies/people#person> <http://cohse.semanticweb.org/ontologies/people#animal>)
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#pet_owner> (pet owner)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#pet_owner> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#pet_owner> "pet owner")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#pet_owner> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#has_pet> <http://cohse.semanticweb.org/ontologies/people#animal>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#van_driver> (van driver)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#van_driver> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#van_driver> "van driver")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#van_driver> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#person> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#drives> <http://cohse.semanticweb.org/ontologies/people#van>)))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#white_van_man> (white van man)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#white_van_man> "A white van man is a man who drives a white van.")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#white_van_man> "white van man")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#white_van_man> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#man> ObjectSomeValuesFrom(<http://cohse.semanticweb.org/ontologies/people#drives> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#van> <http://cohse.semanticweb.org/ontologies/people#white_thing>))))
+SubClassOf(<http://cohse.semanticweb.org/ontologies/people#white_van_man> ObjectAllValuesFrom(<http://cohse.semanticweb.org/ontologies/people#reads> <http://cohse.semanticweb.org/ontologies/people#tabloid>))
+
+# Class: <http://cohse.semanticweb.org/ontologies/people#woman> (woman)
+
+AnnotationAssertion(rdfs:comment <http://cohse.semanticweb.org/ontologies/people#woman> "")
+AnnotationAssertion(rdfs:label <http://cohse.semanticweb.org/ontologies/people#woman> "woman")
+EquivalentClasses(<http://cohse.semanticweb.org/ontologies/people#woman> ObjectIntersectionOf(<http://cohse.semanticweb.org/ontologies/people#adult> <http://cohse.semanticweb.org/ontologies/people#female> <http://cohse.semanticweb.org/ontologies/people#person>))
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: <http://cohse.semanticweb.org/ontologies/people#Fred> (Fred)
+
+ClassAssertion(<http://cohse.semanticweb.org/ontologies/people#person> <http://cohse.semanticweb.org/ontologies/people#Fred>)
+
+# Individual: <http://cohse.semanticweb.org/ontologies/people#Joe> (Joe)
+
+ClassAssertion(<http://cohse.semanticweb.org/ontologies/people#person> <http://cohse.semanticweb.org/ontologies/people#Joe>)
+
+# Individual: <http://cohse.semanticweb.org/ontologies/people#Kevin> (Kevin)
+
+ClassAssertion(<http://cohse.semanticweb.org/ontologies/people#person> <http://cohse.semanticweb.org/ontologies/people#Kevin>)
+
+# Individual: <http://cohse.semanticweb.org/ontologies/people#Mick> (Mick)
+
+ClassAssertion(<http://cohse.semanticweb.org/ontologies/people#male> <http://cohse.semanticweb.org/ontologies/people#Mick>)
+
+# Individual: <http://cohse.semanticweb.org/ontologies/people#Minnie> (Minnie)
+
+ClassAssertion(<http://cohse.semanticweb.org/ontologies/people#elderly> <http://cohse.semanticweb.org/ontologies/people#Minnie>)
+ClassAssertion(<http://cohse.semanticweb.org/ontologies/people#female> <http://cohse.semanticweb.org/ontologies/people#Minnie>)
+
+# Individual: <http://cohse.semanticweb.org/ontologies/people#Walt> (Walt)
+
+ClassAssertion(<http://cohse.semanticweb.org/ontologies/people#person> <http://cohse.semanticweb.org/ontologies/people#Walt>)
+
+
+)
