@@ -85,44 +85,6 @@ public class OhCohesion extends Cohesion {
 				}
 			});
 		});
-		
-//		Stream.of(hieriarchicalClassRelations, nonHieriarchicalClassRelations).forEach(System.out::println);
-		
-//		System.out.println(cohesion());
-		
-//		JFrame frame = new JFrame();
-//		frame.setSize(400, 400);
-//		JGraph jgraph = new JGraph(new JGraphModelAdapter<OWLClassLocalNameDisplayWrapper, DefaultEdge>(nonHieriarchicalClassRelations));
-//		JGraphFacade facade = new JGraphFacade(jgraph);
-//		new JGraphFastOrganicLayout().run(facade);
-//		final Map nestedMap = facade.createNestedMap(true, true);
-//		jgraph.getGraphLayoutCache().edit(nestedMap);
-//
-//		JScrollPane scrollPane = new JScrollPane(jgraph);
-//		frame.getContentPane().add(scrollPane);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setVisible(true);
-//		
-//		frame = new JFrame();
-//		frame.setSize(400, 400);
-//		jgraph = new JGraph(new JGraphModelAdapter<OWLClassLocalNameDisplayWrapper, DefaultEdge>(hieriarchicalClassRelations));
-//		facade = new JGraphFacade(jgraph);
-//		new JGraphHierarchicalLayout().run(facade);
-//		final Map nestedMap2 = facade.createNestedMap(true, true);
-//		jgraph.getGraphLayoutCache().edit(nestedMap2);
-//
-//		scrollPane = new JScrollPane(jgraph);
-//		frame.getContentPane().add(scrollPane);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setVisible(true);
-//		
-//		while (true) {
-//			try {
-//				Thread.sleep(2000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
 	}
 
 	public double cohesion() {
