@@ -68,87 +68,82 @@ public class OhCohesion extends Cohesion {
 		this.onto = onto;
 		hieriarchicalClassRelations = new SimpleDirectedGraph<OWLClassLocalNameDisplayWrapper, DefaultEdge>(DefaultEdge.class);
 		nonHieriarchicalClassRelations = new SimpleGraph<OWLClassLocalNameDisplayWrapper, DefaultEdge>(DefaultEdge.class);
-	}
-	
-	public void doIt() {
-		Stream<OWLClass> classes = onto.classesInSignature(Imports.INCLUDED);
-		classes.forEach(clazz -> {
+
+		onto.classesInSignature(Imports.EXCLUDED).forEach(clazz -> {
 			onto.axioms(clazz).forEach( axiom -> {
 				if (axiom.isOfType(Stream.of(AxiomType.SUBCLASS_OF))) {
 					OWLClassExpression superClassExp = ((OWLSubClassOfAxiom)axiom).getSuperClass();
 					if (superClassExp instanceof OWLClass) {
-						addEdge(hieriarchicalClassRelations, (OWLClass)superClassExp, clazz);
+						processRelation(hieriarchicalClassRelations, (OWLClass)superClassExp, clazz);
 					} else {
-						((OWLAnonymousClassExpression)superClassExp).classesInSignature().forEach(superClass -> addEdge(nonHieriarchicalClassRelations, clazz, superClass));
+						((OWLAnonymousClassExpression)superClassExp).classesInSignature().forEach(superClass -> processRelation(nonHieriarchicalClassRelations, clazz, superClass));
 					}
 				} else if (axiom.isOfType(AxiomType.EQUIVALENT_CLASSES)) {
-					((OWLEquivalentClassesAxiom)axiom).classesInSignature().forEach(equivalentClass -> addEdge(nonHieriarchicalClassRelations, clazz, equivalentClass));
+					((OWLEquivalentClassesAxiom)axiom).classesInSignature().forEach(equivalentClass -> processRelation(nonHieriarchicalClassRelations, clazz, equivalentClass));
 				} else if (axiom.isOfType(AxiomType.DISJOINT_CLASSES)) {
-					((OWLDisjointClassesAxiom)axiom).classesInSignature().forEach(disjointClass -> addEdge(nonHieriarchicalClassRelations, clazz, disjointClass));
+					((OWLDisjointClassesAxiom)axiom).classesInSignature().forEach(disjointClass -> processRelation(nonHieriarchicalClassRelations, clazz, disjointClass));
 				}
 			});
 		});
 		
 //		Stream.of(hieriarchicalClassRelations, nonHieriarchicalClassRelations).forEach(System.out::println);
 		
-		System.out.println(cohesion());
+//		System.out.println(cohesion());
 		
-		JFrame frame = new JFrame();
-		frame.setSize(400, 400);
-		JGraph jgraph = new JGraph(new JGraphModelAdapter<OWLClassLocalNameDisplayWrapper, DefaultEdge>(nonHieriarchicalClassRelations));
-		JGraphFacade facade = new JGraphFacade(jgraph);
-		new JGraphFastOrganicLayout().run(facade);
-		final Map nestedMap = facade.createNestedMap(true, true);
-		jgraph.getGraphLayoutCache().edit(nestedMap);
-
-		JScrollPane scrollPane = new JScrollPane(jgraph);
-		frame.getContentPane().add(scrollPane);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		
-		frame = new JFrame();
-		frame.setSize(400, 400);
-		jgraph = new JGraph(new JGraphModelAdapter<OWLClassLocalNameDisplayWrapper, DefaultEdge>(hieriarchicalClassRelations));
-		facade = new JGraphFacade(jgraph);
-		new JGraphHierarchicalLayout().run(facade);
-		final Map nestedMap2 = facade.createNestedMap(true, true);
-		jgraph.getGraphLayoutCache().edit(nestedMap2);
-
-		scrollPane = new JScrollPane(jgraph);
-		frame.getContentPane().add(scrollPane);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		
-		while (true) {
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+//		JFrame frame = new JFrame();
+//		frame.setSize(400, 400);
+//		JGraph jgraph = new JGraph(new JGraphModelAdapter<OWLClassLocalNameDisplayWrapper, DefaultEdge>(nonHieriarchicalClassRelations));
+//		JGraphFacade facade = new JGraphFacade(jgraph);
+//		new JGraphFastOrganicLayout().run(facade);
+//		final Map nestedMap = facade.createNestedMap(true, true);
+//		jgraph.getGraphLayoutCache().edit(nestedMap);
+//
+//		JScrollPane scrollPane = new JScrollPane(jgraph);
+//		frame.getContentPane().add(scrollPane);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setVisible(true);
+//		
+//		frame = new JFrame();
+//		frame.setSize(400, 400);
+//		jgraph = new JGraph(new JGraphModelAdapter<OWLClassLocalNameDisplayWrapper, DefaultEdge>(hieriarchicalClassRelations));
+//		facade = new JGraphFacade(jgraph);
+//		new JGraphHierarchicalLayout().run(facade);
+//		final Map nestedMap2 = facade.createNestedMap(true, true);
+//		jgraph.getGraphLayoutCache().edit(nestedMap2);
+//
+//		scrollPane = new JScrollPane(jgraph);
+//		frame.getContentPane().add(scrollPane);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setVisible(true);
+//		
+//		while (true) {
+//			try {
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 	public double cohesion() {
 		double classCount = onto.classesInSignature().count();
-		return sr() / (classCount * (classCount - 1)) * 2d;
+		return classCount == 1 ? 1d : sr() / (classCount * (classCount - 1)) * 2d;
 	}
 	
-	public double sr() {
-		return hieriarchicalClassRelations.vertexSet()
-				.stream()
-				.flatMap(v1 -> hieriarchicalClassRelations.vertexSet()
-						.stream()
-						.map(v2 -> new DijkstraShortestPath<>(hieriarchicalClassRelations, v1, v2).getPathLength()))
+	private double sr() {
+		return hieriarchicalClassRelations.vertexSet().stream()
+				.flatMap(v1 -> hieriarchicalClassRelations.vertexSet().stream()
+						.map(v2 -> new DijkstraShortestPath<OWLClassLocalNameDisplayWrapper, DefaultEdge>(hieriarchicalClassRelations, v1, v2).getPathLength()))
 				.filter(d -> d != 0d && d != Double.POSITIVE_INFINITY)
 				.mapToDouble(x -> 1d/x)
 				.sum();
 	}
 	
-	private double sr(OWLClass c1, OWLClass c2) {
+	public double coupling() {
 		return 0d;
 	}
 	
-	private void addEdge(Graph<OWLClassLocalNameDisplayWrapper, DefaultEdge> g, OWLClass c1, OWLClass c2) {
+	private void processRelation(Graph<OWLClassLocalNameDisplayWrapper, DefaultEdge> g, OWLClass c1, OWLClass c2) {
 		if (c1.equals(c2))
 			return;
 		

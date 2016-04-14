@@ -1,0 +1,35 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/Mb#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/Mb>
+
+Declaration(Class(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M_both#C1>))
+Declaration(Class(:C4))
+Declaration(Class(:C5))
+Declaration(Class(:C6))
+Declaration(Class(:C7))
+############################
+#   Classes
+############################
+
+# Class: :C4 (:C4)
+
+EquivalentClasses(:C4 :C6)
+SubClassOf(:C4 <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M_both#C1>)
+
+# Class: :C5 (:C5)
+
+EquivalentClasses(:C5 :C7)
+SubClassOf(:C5 <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M_both#C1>)
+
+# Class: :C7 (:C7)
+
+SubClassOf(:C7 :C4)
+
+
+)
