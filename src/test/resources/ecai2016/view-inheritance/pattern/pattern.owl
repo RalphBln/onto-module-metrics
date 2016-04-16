@@ -1,0 +1,32 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/pattern#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/pattern>
+Import(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/base>)
+
+Declaration(Class(:Criterion1))
+Declaration(Class(:Criterion2))
+############################
+#   Classes
+############################
+
+# Class: <http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/base#C1_C2_Class1> (<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/base#C1_C2_Class1>)
+
+SubClassOf(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/base#C1_C2_Class1> :Criterion1)
+SubClassOf(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/base#C1_C2_Class1> :Criterion2)
+
+# Class: :Criterion1 (:Criterion1)
+
+SubClassOf(:Criterion1 <http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/base#TargetDomainConcept1>)
+
+# Class: :Criterion2 (:Criterion2)
+
+SubClassOf(:Criterion2 <http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/pattern/base#TargetDomainConcept1>)
+
+
+)

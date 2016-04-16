@@ -4,20 +4,23 @@
 package de.csw.ontology.aood.ontometrics.oh;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAnonymousClassExpression;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
 
@@ -47,10 +50,10 @@ public class OhCohesion extends Cohesion {
 
 	private OWLOntology baseOnto;
 
-	private HashSetValuedHashMap<OWLClass, OntologyModule> ontologyModulesByClass = new HashSetValuedHashMap<OWLClass, OntologyModule>();
+	private HashSetValuedHashMap<OWLObject, OntologyModule> ontologyModulesByEntity = new HashSetValuedHashMap<OWLObject, OntologyModule>();
 	
-	private Set<OWLClass> internalSignature;
-	private HashSet<OWLClass> mergedExternalSignatures;
+	private Set<OWLObject> internalSignature;
+	private HashSet<OWLObject> mergedExternalSignatures;
 	
 	/**
 	 * 
@@ -59,7 +62,7 @@ public class OhCohesion extends Cohesion {
 	public OhCohesion(OWLOntology baseOnto) {
 		this.baseOnto = baseOnto;
 		
-		// Fore each class, store all ontology modules where the class appears
+		// Fore each entity, store all ontology modules where the entity appears
 		// in the signature
 		
 		OWLOntologyManager om = baseOnto.getOWLOntologyManager();
@@ -68,11 +71,16 @@ public class OhCohesion extends Cohesion {
 		.forEach(ontology -> {
 			OntologyModule module = new OntologyModule(ontology);
 			ontology.classesInSignature(Imports.EXCLUDED)
-			.forEach(clazz -> ontologyModulesByClass.put(clazz, module));
+			.forEach(clazz -> ontologyModulesByEntity.put(clazz, module));
+			ontology.individualsInSignature(Imports.EXCLUDED)
+			.forEach(individual -> ontologyModulesByEntity.put(individual, module));
+			ontology.axioms(Imports.EXCLUDED)
+			.forEach(axiom -> ontologyModulesByEntity.put(axiom, module));
 		});
 		
+		
 		baseOnto.classesInSignature(Imports.INCLUDED).forEach(clazz -> {
-			baseOnto.axioms(clazz, Imports.INCLUDED).forEach( axiom -> {
+			baseOnto.axioms(clazz, Imports.INCLUDED).forEach(axiom -> {
 				if (axiom.isOfType(Stream.of(AxiomType.SUBCLASS_OF))) {
 					OWLClassExpression superClassExp = ((OWLSubClassOfAxiom)axiom).getSuperClass();
 					if (superClassExp instanceof OWLClass) {
@@ -88,20 +96,45 @@ public class OhCohesion extends Cohesion {
 			});
 		});
 		
+		baseOnto.individualsInSignature(Imports.INCLUDED).forEach(individual -> {
+			baseOnto.axioms(individual, Imports.INCLUDED).forEach(axiom -> {
+				if (axiom.isOfType(Stream.of(AxiomType.CLASS_ASSERTION))) {
+					OWLClassExpression typeClassExp = ((OWLClassAssertionAxiom)axiom).getClassExpression();
+					if (typeClassExp instanceof OWLClass) {
+						processHierarchicalClassRelation((OWLClass)typeClassExp, individual);
+					} else {
+						((OWLAnonymousClassExpression)typeClassExp).classesInSignature().forEach(typeClass -> processNonHierarchicalClassRelation(individual, typeClass));
+					}
+				} else if (axiom.isOfType(AxiomType.SAME_INDIVIDUAL)) {
+					((OWLSameIndividualAxiom)axiom).individualsInSignature().forEach(sameIndividual -> processNonHierarchicalClassRelation(individual, sameIndividual));
+				} else if (axiom.isOfType(AxiomType.DIFFERENT_INDIVIDUALS)) {
+					((OWLDifferentIndividualsAxiom)axiom).individualsInSignature().forEach(differentIndividual -> processNonHierarchicalClassRelation(individual, differentIndividual));
+				} else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_ASSERTION)) {
+					((OWLObjectPropertyAssertionAxiom)axiom).individualsInSignature().forEach(connectedIndividual -> processNonHierarchicalClassRelation(individual, connectedIndividual));
+				}
+			});
+		});
+		
+		baseOnto.axioms(Imports.INCLUDED).forEach(axiom -> {
+			axiom.annotations().forEach(annotation -> {
+				processNonHierarchicalClassRelation(axiom, annotation.getValue());
+			});
+		});
+		
 	}
 	
-	private void processHierarchicalClassRelation(OWLClass c1, OWLClass c2) {
+	private void processHierarchicalClassRelation(OWLObject c1, OWLObject c2) {
 		if (c1.equals(c2))
 			return;
 
-		ontologyModulesByClass.get(c1).stream().forEach(sourceModule -> {
+		ontologyModulesByEntity.get(c1).stream().forEach(sourceModule -> {
 			if (!sourceModule.contains(c2)) {
 				sourceModule.processExternalHierarchicalRelation(c1, c2);
 			}
 		});
 
 		// the other way round
-		ontologyModulesByClass.get(c2).stream().forEach(sourceModule -> {
+		ontologyModulesByEntity.get(c2).stream().forEach(sourceModule -> {
 			if (sourceModule.contains(c1)) {
 				// internal relation
 				sourceModule.processInternalHierarchicalRelation(c2, c1);
@@ -112,11 +145,11 @@ public class OhCohesion extends Cohesion {
 
 	}
 
-	private void processNonHierarchicalClassRelation(OWLClass c1, OWLClass c2) {
+	private void processNonHierarchicalClassRelation(OWLObject c1, OWLObject c2) {
 		if (c1.equals(c2))
 			return;
 		
-		ontologyModulesByClass.get(c1).stream().forEach(sourceModule -> {
+		ontologyModulesByEntity.get(c1).stream().forEach(sourceModule -> {
 			if (sourceModule.contains(c2)) {
 				// internal relation
 				sourceModule.processInternalNonHierarchicalRelation(c1, c2);
@@ -126,7 +159,7 @@ public class OhCohesion extends Cohesion {
 		});
 
 		// the other way round
-		ontologyModulesByClass.get(c2).stream().forEach(sourceModule -> {
+		ontologyModulesByEntity.get(c2).stream().forEach(sourceModule -> {
 			if (sourceModule.contains(c1)) {
 				// internal relation
 				sourceModule.processInternalNonHierarchicalRelation(c2, c1);
@@ -138,7 +171,7 @@ public class OhCohesion extends Cohesion {
 	}
 	
 	public Stream<OntologyModule> modules() {
-		return ontologyModulesByClass.values().stream().distinct();
+		return ontologyModulesByEntity.values().stream().distinct();
 	}
-
+	
 }

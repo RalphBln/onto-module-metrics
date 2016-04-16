@@ -1,0 +1,27 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/time#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/aspect/time>
+
+Declaration(Class(:DateTimeInterval))
+Declaration(DataProperty(:hasBeginning))
+Declaration(NamedIndividual(:Interval_1))
+
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :Interval_1 (:Interval_1)
+
+ClassAssertion(:DateTimeInterval :Interval_1)
+DataPropertyAssertion(:hasBeginning :Interval_1 "2008-02-18T00:00:00"^^xsd:dateTime)
+
+
+)

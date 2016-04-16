@@ -1,0 +1,35 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/aspect/aspect#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/aspect/aspect>
+Import(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/aspect/base>)
+Import(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/aspect/time>)
+
+Declaration(Class(:Aspect))
+Declaration(Class(:TemporalAspect_1))
+Declaration(AnnotationProperty(:aspect))
+
+############################
+#   Classes
+############################
+
+# Class: :TemporalAspect_1 (:TemporalAspect_1)
+
+SubClassOf(:TemporalAspect_1 :Aspect)
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: <http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/time#Interval_1> (<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/time#Interval_1>)
+
+ClassAssertion(:TemporalAspect_1 <http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/time#Interval_1>)
+
+
+)

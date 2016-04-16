@@ -1,0 +1,34 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/pattern#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/pattern>
+Import(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/time>)
+Import(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/base>)
+
+Declaration(Class(:Recognition))
+Declaration(ObjectProperty(:recognizingEntity))
+Declaration(ObjectProperty(:validity))
+Declaration(NamedIndividual(:Recognition_1))
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: <http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/base#Kosovo> (<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/base#Kosovo>)
+
+ObjectPropertyAssertion(<http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/base#recognizedBy> <http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/base#Kosovo> :Recognition_1)
+
+# Individual: :Recognition_1 (:Recognition_1)
+
+ClassAssertion(:Recognition :Recognition_1)
+ObjectPropertyAssertion(:recognizingEntity :Recognition_1 <http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/base#United_Kingdom>)
+ObjectPropertyAssertion(:validity :Recognition_1 <http://www.corporate-semantic-web.de/ontologies/aood/n-ary/pattern/time#Interval_1>)
+
+
+)

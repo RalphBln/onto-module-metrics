@@ -1,0 +1,26 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/projection/aspect/base#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/projection/aspect/base>
+
+Declaration(ObjectProperty(:p))
+Declaration(NamedIndividual(:Object))
+Declaration(NamedIndividual(:Subject))
+Declaration(AnnotationProperty(<http://www.corporate-semantic-web.de/ontologies/aood/projection/aspect/aspect#aspect>))
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :Subject (:Subject)
+
+ObjectPropertyAssertion(Annotation(<http://www.corporate-semantic-web.de/ontologies/aood/projection/aspect/aspect#aspect> <http://www.corporate-semantic-web.de/ontologies/aood/projection/aspect/aspect#Context>) :p :Subject :Object)
+
+
+)

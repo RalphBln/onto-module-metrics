@@ -10,7 +10,6 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import org.javatuples.Pair;
 import org.protege.xmlcatalog.owlapi.XMLCatalogIRIMapper;

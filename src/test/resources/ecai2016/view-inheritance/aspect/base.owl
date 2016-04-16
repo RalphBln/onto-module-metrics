@@ -1,0 +1,35 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/base#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/base>
+
+Declaration(Class(:C1_C2_Class1))
+Declaration(Class(:C1_Class1))
+Declaration(Class(:C2_Class1))
+Declaration(Class(:TargetDomainConcept1))
+Declaration(AnnotationProperty(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/aspect#aspect>))
+
+############################
+#   Classes
+############################
+
+# Class: :C1_C2_Class1 (:C1_C2_Class1)
+
+SubClassOf(Annotation(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/aspect#aspect> <http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/aspect#Criterion1>) :C1_C2_Class1 :C1_Class1)
+SubClassOf(Annotation(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/aspect#aspect> <http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/aspect#Criterion2>) :C1_C2_Class1 :C2_Class1)
+
+# Class: :C1_Class1 (:C1_Class1)
+
+SubClassOf(:C1_Class1 :TargetDomainConcept1)
+
+# Class: :C2_Class1 (:C2_Class1)
+
+SubClassOf(:C2_Class1 :TargetDomainConcept1)
+
+
+)

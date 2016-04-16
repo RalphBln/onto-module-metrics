@@ -1,0 +1,48 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/aspect#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/aspect>
+Import(<http://www.corporate-semantic-web.de/ontologies/aood/viewinheritance/aspect/base>)
+
+Declaration(Class(:Criterion1))
+Declaration(Class(:Criterion2))
+Declaration(ObjectProperty(:accessible))
+Declaration(NamedIndividual(:World1))
+Declaration(NamedIndividual(:World2))
+Declaration(AnnotationProperty(:aspect))
+
+############################
+#   Object Properties
+############################
+
+# Object Property: :accessible (:accessible)
+
+ReflexiveObjectProperty(:accessible)
+ObjectPropertyDomain(:accessible :Criterion1)
+ObjectPropertyDomain(:accessible :Criterion2)
+ObjectPropertyRange(:accessible :Criterion1)
+ObjectPropertyRange(:accessible :Criterion2)
+
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :World1 (:World1)
+
+ClassAssertion(:Criterion1 :World1)
+ObjectPropertyAssertion(:accessible :World1 :World1)
+
+# Individual: :World2 (:World2)
+
+ClassAssertion(:Criterion2 :World2)
+ObjectPropertyAssertion(:accessible :World2 :World2)
+
+
+)
