@@ -5,11 +5,18 @@ package de.csw.ontology.aood.ontometrics.test.cohesion;
 
 import java.io.File;
 import java.net.URI;
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 import de.csw.ontology.aood.ontometrics.Util;
 import de.csw.ontology.aood.ontometrics.oh.OhCohesion;
@@ -20,56 +27,51 @@ import de.csw.ontology.aood.ontometrics.oh.OhCohesion;
  * @author ralph
  */
 public class TestOhCohesion {
+	
+	private Map<String, Double> expectedValues = Collections.unmodifiableMap(Stream.of(
+			entry("M1", 7d / 12d),
+			entry("M2", 1d),
+			entry("M3", 1d),
+			entry("Ma", 2d / 3d),
+			entry("Mb", 11d / 20d)			
+			).collect(entriesToMap()));
 
+	public static <K, V> Map.Entry<K, V> entry(K key, V value) {
+		return new AbstractMap.SimpleEntry<>(key, value);
+	}
+	
+	public static <K, U> Collector<Map.Entry<K, U>, ?, Map<K, U>> entriesToMap() {
+        return Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue());
+    }
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// onto = Util.loadOntology(new
-		// File("/Users/ralph/Documents/Diss/Ontologien/CSC_Studie/Modularization/obo-all/go.owl"));
-		// onto = Util.loadOntology(new
-		// File(URI.create(TestOhCohesion.class.getResource("/person.ofn").toString())));
+	}
+	
+	@Test
+	public void testCohesionM1() throws Exception {
+		OWLOntology onto = Util.loadOntology(new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization1/all.owl").toString())));
+		testOhCohesion(onto);
 	}
 
 	@Test
-	public void testCohesionOhM1() throws OWLOntologyCreationException {
-		OhCohesion oh = new OhCohesion(Util.loadOntology(
-				new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization1/M1.owl").toString()))));
-		assert (oh.cohesion() == 7d / 12d);
+	public void testCohesionM2() throws Exception {
+		OWLOntology onto = Util.loadOntology(new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization2/all.owl").toString())));
+		testOhCohesion(onto);
 	}
 
-	@Test
-	public void testCohesionOhM2() throws OWLOntologyCreationException {
-
-		OhCohesion oh = new OhCohesion(Util.loadOntology(
-				new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization1/M2.owl").toString()))));
-		assert (oh.cohesion() == 1d);
+	private void testOhCohesion(OWLOntology onto) {
+		OhCohesion oh = new OhCohesion(onto);
+		oh.modules().forEach(module -> {
+			Double expectedValue = expectedValues.get(module.getName());
+			if (expectedValue != null)
+				Assert.assertEquals(module.cohesion(), (double)expectedValue, 0d);
+			System.out.println(module.getName() + ": " + module.couplingHierarchical() + ", " + module.couplingNonHierarchical() + ", " + module.coupling());
+		});
 	}
- 
-	@Test
-	public void testCohesionOhM3() throws OWLOntologyCreationException {
-
-		OhCohesion oh = new OhCohesion(Util.loadOntology(
-				new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization1/M3.owl").toString()))));
-		assert (oh.cohesion() == 1d);
-	}
-
-	@Test
-	public void testCohesionOhMa() throws OWLOntologyCreationException {
-
-		OhCohesion oh = new OhCohesion(Util.loadOntology(
-				new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization2/Ma.owl").toString()))));
-		assert (oh.cohesion() == 2d / 3d);
-	}
-
-	@Test
-	public void testCohesionOhMb() throws OWLOntologyCreationException {
-		OhCohesion oh = new OhCohesion(Util.loadOntology(
-				new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization2/Mb.owl").toString()))));
-		assert (oh.cohesion() == 11d / 20d);
-	}
-
 
 	/**
 	 * @throws java.lang.Exception

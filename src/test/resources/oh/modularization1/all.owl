@@ -1,0 +1,35 @@
+Prefix(:=<http://www.corporate-semantic-web.de/ontologies/aood/test/modularization1#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/test/modularization1>
+Import(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2>)
+Import(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M1>)
+Import(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M3>)
+
+############################
+#   Classes
+############################
+
+# Class: <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M1#C6> (<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M1#C6>)
+
+EquivalentClasses(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M1#C6> <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2#C4>)
+
+# Class: <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2#C4> (<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2#C4>)
+
+SubClassOf(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2#C4> <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M1#C1>)
+
+# Class: <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2#C7> (<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2#C7>)
+
+EquivalentClasses(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2#C7> <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M3#C5>)
+
+# Class: <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M3#C5> (<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M3#C5>)
+
+SubClassOf(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M3#C5> <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M1#C1>)
+
+
+)

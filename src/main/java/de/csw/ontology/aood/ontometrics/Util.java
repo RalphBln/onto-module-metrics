@@ -7,12 +7,16 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
+import org.javatuples.Pair;
 import org.protege.xmlcatalog.owlapi.XMLCatalogIRIMapper;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
@@ -99,6 +103,18 @@ public class Util {
 			}
 		}
 		return catalogIRIMappers;
+	}
+	
+	private static HashMap<Pair<OWLEntity, OWLOntology>, Boolean> declaringOntologyCache = new HashMap<Pair<OWLEntity, OWLOntology>, Boolean>();
+	
+	public static boolean isDeclaredInOntology(OWLEntity entity, OWLOntology onto) {
+		Pair<OWLEntity, OWLOntology> pair = Pair.with(entity, onto);
+		Boolean result = declaringOntologyCache.get(pair);
+		if (result == null) {
+			result = onto.declarationAxioms(entity).count() != 0;
+			declaringOntologyCache.put(pair, result);
+		}
+		return result;
 	}
 	
 }

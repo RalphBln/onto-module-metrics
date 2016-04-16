@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M1" uri="M1.owl"/>
+    <uri id="Imports Wizard Entry" name="http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M2" uri="M2.owl"/>
+    <uri id="Imports Wizard Entry" name="http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M3" uri="M3.owl"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base=""/>
 </catalog>

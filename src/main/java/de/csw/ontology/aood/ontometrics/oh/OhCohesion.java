@@ -3,21 +3,13 @@
  */
 package de.csw.ontology.aood.ontometrics.oh;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-
-import org.jgraph.JGraph;
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.alg.DijkstraShortestPath;
-import org.jgrapht.ext.JGraphModelAdapter;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleDirectedGraph;
-import org.jgrapht.graph.SimpleGraph;
+import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAnonymousClassExpression;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -25,12 +17,9 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
-
-import com.jgraph.layout.JGraphFacade;
-import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
-import com.jgraph.layout.organic.JGraphFastOrganicLayout;
 
 import de.csw.ontology.aood.ontometrics.Cohesion;
 
@@ -56,65 +45,100 @@ import de.csw.ontology.aood.ontometrics.Cohesion;
  */
 public class OhCohesion extends Cohesion {
 
-	private OWLOntology onto;
+	private OWLOntology baseOnto;
+
+	private HashSetValuedHashMap<OWLClass, OntologyModule> ontologyModulesByClass = new HashSetValuedHashMap<OWLClass, OntologyModule>();
 	
-	DirectedGraph<OWLClassLocalNameDisplayWrapper, DefaultEdge> hieriarchicalClassRelations;
-	UndirectedGraph<OWLClassLocalNameDisplayWrapper, DefaultEdge> nonHieriarchicalClassRelations;
+	private Set<OWLClass> internalSignature;
+	private HashSet<OWLClass> mergedExternalSignatures;
 	
 	/**
 	 * 
+	 * @param baseOnto The uppermost ontology in the import tree 
 	 */
-	public OhCohesion(OWLOntology onto) {
-		this.onto = onto;
-		hieriarchicalClassRelations = new SimpleDirectedGraph<OWLClassLocalNameDisplayWrapper, DefaultEdge>(DefaultEdge.class);
-		nonHieriarchicalClassRelations = new SimpleGraph<OWLClassLocalNameDisplayWrapper, DefaultEdge>(DefaultEdge.class);
-
-		onto.classesInSignature(Imports.EXCLUDED).forEach(clazz -> {
-			onto.axioms(clazz).forEach( axiom -> {
+	public OhCohesion(OWLOntology baseOnto) {
+		this.baseOnto = baseOnto;
+		
+		// Fore each class, store all ontology modules where the class appears
+		// in the signature
+		
+		OWLOntologyManager om = baseOnto.getOWLOntologyManager();
+		
+		om.ontologies()
+		.forEach(ontology -> {
+			OntologyModule module = new OntologyModule(ontology);
+			ontology.classesInSignature(Imports.EXCLUDED)
+			.forEach(clazz -> ontologyModulesByClass.put(clazz, module));
+		});
+		
+		baseOnto.classesInSignature(Imports.INCLUDED).forEach(clazz -> {
+			baseOnto.axioms(clazz, Imports.INCLUDED).forEach( axiom -> {
 				if (axiom.isOfType(Stream.of(AxiomType.SUBCLASS_OF))) {
 					OWLClassExpression superClassExp = ((OWLSubClassOfAxiom)axiom).getSuperClass();
 					if (superClassExp instanceof OWLClass) {
-						processRelation(hieriarchicalClassRelations, (OWLClass)superClassExp, clazz);
+						processHierarchicalClassRelation((OWLClass)superClassExp, clazz);
 					} else {
-						((OWLAnonymousClassExpression)superClassExp).classesInSignature().forEach(superClass -> processRelation(nonHieriarchicalClassRelations, clazz, superClass));
+						((OWLAnonymousClassExpression)superClassExp).classesInSignature().forEach(superClass -> processNonHierarchicalClassRelation(clazz, superClass));
 					}
 				} else if (axiom.isOfType(AxiomType.EQUIVALENT_CLASSES)) {
-					((OWLEquivalentClassesAxiom)axiom).classesInSignature().forEach(equivalentClass -> processRelation(nonHieriarchicalClassRelations, clazz, equivalentClass));
+					((OWLEquivalentClassesAxiom)axiom).classesInSignature().forEach(equivalentClass -> processNonHierarchicalClassRelation(clazz, equivalentClass));
 				} else if (axiom.isOfType(AxiomType.DISJOINT_CLASSES)) {
-					((OWLDisjointClassesAxiom)axiom).classesInSignature().forEach(disjointClass -> processRelation(nonHieriarchicalClassRelations, clazz, disjointClass));
+					((OWLDisjointClassesAxiom)axiom).classesInSignature().forEach(disjointClass -> processNonHierarchicalClassRelation(clazz, disjointClass));
 				}
 			});
 		});
+		
+	}
+	
+	private void processHierarchicalClassRelation(OWLClass c1, OWLClass c2) {
+		if (c1.equals(c2))
+			return;
+
+		ontologyModulesByClass.get(c1).stream().forEach(sourceModule -> {
+			if (!sourceModule.contains(c2)) {
+				sourceModule.processExternalHierarchicalRelation(c1, c2);
+			}
+		});
+
+		// the other way round
+		ontologyModulesByClass.get(c2).stream().forEach(sourceModule -> {
+			if (sourceModule.contains(c1)) {
+				// internal relation
+				sourceModule.processInternalHierarchicalRelation(c2, c1);
+			} else {
+				sourceModule.processExternalHierarchicalRelation(c2, c1);
+			}
+		});
+
 	}
 
-	public double cohesion() {
-		double classCount = onto.classesInSignature().count();
-		return classCount == 1 ? 1d : sr() / (classCount * (classCount - 1)) * 2d;
-	}
-	
-	private double sr() {
-		return hieriarchicalClassRelations.vertexSet().stream()
-				.flatMap(v1 -> hieriarchicalClassRelations.vertexSet().stream()
-						.map(v2 -> new DijkstraShortestPath<OWLClassLocalNameDisplayWrapper, DefaultEdge>(hieriarchicalClassRelations, v1, v2).getPathLength()))
-				.filter(d -> d != 0d && d != Double.POSITIVE_INFINITY)
-				.mapToDouble(x -> 1d/x)
-				.sum();
-	}
-	
-	public double coupling() {
-		return 0d;
-	}
-	
-	private void processRelation(Graph<OWLClassLocalNameDisplayWrapper, DefaultEdge> g, OWLClass c1, OWLClass c2) {
+	private void processNonHierarchicalClassRelation(OWLClass c1, OWLClass c2) {
 		if (c1.equals(c2))
 			return;
 		
-		OWLClassLocalNameDisplayWrapper cl1 = new OWLClassLocalNameDisplayWrapper(c1);
-		OWLClassLocalNameDisplayWrapper cl2 = new OWLClassLocalNameDisplayWrapper(c2);
-		
-		g.addVertex(cl1);
-		g.addVertex(cl2);
-		g.addEdge(cl1, cl2);
+		ontologyModulesByClass.get(c1).stream().forEach(sourceModule -> {
+			if (sourceModule.contains(c2)) {
+				// internal relation
+				sourceModule.processInternalNonHierarchicalRelation(c1, c2);
+			} else {
+				sourceModule.processExternalNonHierarchicalRelation(c1, c2);
+			}
+		});
+
+		// the other way round
+		ontologyModulesByClass.get(c2).stream().forEach(sourceModule -> {
+			if (sourceModule.contains(c1)) {
+				// internal relation
+				sourceModule.processInternalNonHierarchicalRelation(c2, c1);
+			} else {
+				sourceModule.processExternalNonHierarchicalRelation(c2, c1);
+			}
+		});
+
+	}
+	
+	public Stream<OntologyModule> modules() {
+		return ontologyModulesByClass.values().stream().distinct();
 	}
 
 }
