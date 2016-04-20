@@ -68,7 +68,7 @@ public class TestOhCohesion {
 		oh.modules().forEach(module -> {
 			Double expectedValue = expectedValues.get(module.getName());
 			if (expectedValue != null)
-				Assert.assertEquals(module.cohesion(), (double)expectedValue, 0d);
+				Assert.assertEquals((double)expectedValue, module.cohesion(), 0d);
 			System.out.println(module.getName() + ": " + module.couplingHierarchical() + ", " + module.couplingNonHierarchical() + ", " + module.coupling());
 		});
 	}
