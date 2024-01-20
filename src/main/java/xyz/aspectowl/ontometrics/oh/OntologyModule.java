@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.csw.ontology.aood.ontometrics.oh;
+package xyz.aspectowl.ontometrics.oh;
 
 import java.util.HashSet;
 

@@ -5,4 +5,4 @@
  * 
  * @author ralph
  */
-package de.csw.ontology.aood.ontometrics.oh;
+package xyz.aspectowl.ontometrics.oh;

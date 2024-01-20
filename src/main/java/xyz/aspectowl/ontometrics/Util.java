@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.csw.ontology.aood.ontometrics;
+package xyz.aspectowl.ontometrics;
 
 import java.io.File;
 import java.io.FileFilter;

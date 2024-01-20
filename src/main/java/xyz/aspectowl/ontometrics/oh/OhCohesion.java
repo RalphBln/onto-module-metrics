@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.csw.ontology.aood.ontometrics.oh;
+package xyz.aspectowl.ontometrics.oh;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +24,7 @@ import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
 
-import de.csw.ontology.aood.ontometrics.Cohesion;
+import xyz.aspectowl.ontometrics.Cohesion;
 
 /**
  * Oh et al. only look at class relations. They make a distinction between

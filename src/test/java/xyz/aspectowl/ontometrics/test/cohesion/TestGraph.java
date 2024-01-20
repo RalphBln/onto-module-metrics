@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.csw.ontology.aood.ontometrics.test.cohesion;
+package xyz.aspectowl.ontometrics.test.cohesion;
 
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;

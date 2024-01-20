@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.csw.ontology.aood.ontometrics.test.cohesion;
+package xyz.aspectowl.ontometrics.test.cohesion;
 
 import java.io.File;
 import java.net.URI;
@@ -18,8 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-import de.csw.ontology.aood.ontometrics.Util;
-import de.csw.ontology.aood.ontometrics.oh.OhCohesion;
+import xyz.aspectowl.ontometrics.Util;
+import xyz.aspectowl.ontometrics.oh.OhCohesion;
 
 /**
  * The tests in this test case are taken from the examples in the paper by Oh et al.

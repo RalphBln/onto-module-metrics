@@ -1,15 +1,15 @@
 /**
  * 
  */
-package de.csw.ontology.aood.ontometrics.ecai2016;
+package xyz.aspectowl.ontometrics.ecai2016;
 
 import java.io.File;
 
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
-import de.csw.ontology.aood.ontometrics.Util;
-import de.csw.ontology.aood.ontometrics.oh.OhCohesion;
+import xyz.aspectowl.ontometrics.Util;
+import xyz.aspectowl.ontometrics.oh.OhCohesion;
 
 /**
  * @author ralph
