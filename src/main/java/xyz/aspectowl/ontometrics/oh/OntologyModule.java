@@ -4,12 +4,11 @@
 package xyz.aspectowl.ontometrics.oh;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 import org.javatuples.Pair;
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.graph.SimpleGraph;
@@ -26,15 +25,15 @@ import org.semanticweb.owlapi.model.parameters.Imports;
 public class OntologyModule {
 
 	private OWLOntology onto;
+
+	SimpleDirectedGraph<OWLObject, DefaultEdge> internalHieriarchicalRelations = new SimpleDirectedGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
+	SimpleGraph<OWLObject, DefaultEdge> internalNonHieriarchicalRelations = new SimpleGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
 	
-	DirectedGraph<OWLObject, DefaultEdge> internalHieriarchicalRelations = new SimpleDirectedGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
-	UndirectedGraph<OWLObject, DefaultEdge> internalNonHieriarchicalRelations = new SimpleGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
-	
-	private HashSet<Pair<OWLObject, OWLObject>> externalHieriarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
-	private HashSet<Pair<OWLObject, OWLObject>> externalNonHieriarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
+	private HashSet<Pair<OWLObject, OWLObject>> externalHierarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
+	private HashSet<Pair<OWLObject, OWLObject>> externalNonHierarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
 	
 	private double cohesionCachedValue = -1d;
-	private double coulingCachedValue = -1d;
+	private double couplingCachedValue = -1d;
 	private double couplingHierarchicalCachedValue = -1d;
 	private double couplingNonHierarchicalCachedValue = -1d;
 
@@ -55,31 +54,35 @@ public class OntologyModule {
 	}
 	
 	private double sr() {
+		var dijkstra = new DijkstraShortestPath<>(internalHieriarchicalRelations);
+
 		return internalHieriarchicalRelations.vertexSet().stream()
 				.flatMap(v1 -> internalHieriarchicalRelations.vertexSet().stream()
-						.map(v2 -> new DijkstraShortestPath<OWLObject, DefaultEdge>(internalHieriarchicalRelations, v1, v2).getPathLength()))
-				.filter(d -> d != 0d && d != Double.POSITIVE_INFINITY)
-				.mapToDouble(x -> 1d/x)
+						.map(v2 -> dijkstra.getPath(v1, v2)))
+				.filter(path -> path != null)
+				.map(path -> path.getLength())
+				.filter(pathLength -> pathLength != 0)
+				.mapToDouble(pathLength -> 1d/pathLength.doubleValue())
 				.sum();
 	}
 	
 	public double coupling() {
-		if (coulingCachedValue == -1d) {
-			coulingCachedValue = ratio((double)(externalHieriarchicalRelations.size() + externalNonHieriarchicalRelations.size()), (double)(internalHieriarchicalRelations.edgeSet().size() + internalNonHieriarchicalRelations.edgeSet().size()));
+		if (couplingCachedValue == -1d) {
+			couplingCachedValue = ratio((double)(externalHierarchicalRelations.size() + externalNonHierarchicalRelations.size()), (double)(internalHieriarchicalRelations.edgeSet().size() + internalNonHieriarchicalRelations.edgeSet().size()));
 		}
-		return coulingCachedValue;
+		return couplingCachedValue;
 	}
 	
 	public double couplingHierarchical() {
 		if (couplingHierarchicalCachedValue == -1d) {
-			couplingHierarchicalCachedValue = ratio((double)externalHieriarchicalRelations.size(), (double)internalHieriarchicalRelations.edgeSet().size());
+			couplingHierarchicalCachedValue = ratio((double) externalHierarchicalRelations.size(), (double)internalHieriarchicalRelations.edgeSet().size());
 		}
 		return couplingHierarchicalCachedValue;
 	}
 	
 	public double couplingNonHierarchical() {
 		if (couplingNonHierarchicalCachedValue == -1d) {
-			couplingNonHierarchicalCachedValue = ratio((double)externalNonHieriarchicalRelations.size(), (double)internalNonHieriarchicalRelations.edgeSet().size());
+			couplingNonHierarchicalCachedValue = ratio((double) externalNonHierarchicalRelations.size(), (double)internalNonHieriarchicalRelations.edgeSet().size());
 		}
 		return couplingNonHierarchicalCachedValue;
 	}
@@ -116,11 +119,11 @@ public class OntologyModule {
 
 
 	public void processExternalHierarchicalRelation(OWLObject c1, OWLObject c2) {
-		processExternalRelation(externalHieriarchicalRelations, c1, c2);
+		processExternalRelation(externalHierarchicalRelations, c1, c2);
 	}
 
 	public void processExternalNonHierarchicalRelation(OWLObject c1, OWLObject c2) {
-		processExternalRelation(externalNonHieriarchicalRelations, c1, c2);
+		processExternalRelation(externalNonHierarchicalRelations, c1, c2);
 	}
 	
 	/*

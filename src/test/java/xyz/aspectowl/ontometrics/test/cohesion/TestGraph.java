@@ -3,36 +3,19 @@
  */
 package xyz.aspectowl.ontometrics.test.cohesion;
 
-import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.jgrapht.graph.DefaultUndirectedGraph;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author ralph
  */
 public class TestGraph {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void test() {
 		
-		UndirectedGraph<String, DefaultEdge> graph = new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
+		DefaultUndirectedGraph<String, DefaultEdge> graph = new DefaultUndirectedGraph<String, DefaultEdge>(DefaultEdge.class);
 		
 		graph.addVertex("A");
 		graph.addVertex("B");

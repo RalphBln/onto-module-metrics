@@ -12,10 +12,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import xyz.aspectowl.ontometrics.Util;
@@ -43,14 +41,7 @@ public class TestOhCohesion {
 	public static <K, U> Collector<Map.Entry<K, U>, ?, Map<K, U>> entriesToMap() {
         return Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue());
     }
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-	
+
 	@Test
 	public void testCohesionM1() throws Exception {
 		OWLOntology onto = Util.loadOntology(new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization1/all.owl").toString())));
@@ -68,16 +59,9 @@ public class TestOhCohesion {
 		oh.modules().forEach(module -> {
 			Double expectedValue = expectedValues.get(module.getName());
 			if (expectedValue != null)
-				Assert.assertEquals((double)expectedValue, module.cohesion(), 0d);
+				Assertions.assertEquals((double)expectedValue, module.cohesion(), 0d);
 			System.out.println(module.getName() + ": " + module.couplingHierarchical() + ", " + module.couplingNonHierarchical() + ", " + module.coupling());
 		});
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
 	}
 
 }

@@ -9,20 +9,17 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 Ontology(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/Mb>
 
 Declaration(Class(<http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M_both#C1>))
-Declaration(Class(:Aspect1))
 Declaration(Class(:C4))
 Declaration(Class(:C5))
 Declaration(Class(:C6))
 Declaration(Class(:C7))
-Declaration(AnnotationProperty(:hasAspect))
-
 ############################
 #   Classes
 ############################
 
 # Class: :C4 (:C4)
 
-EquivalentClasses(Annotation(:hasAspect :Aspect1) :C4 :C6)
+EquivalentClasses(:C4 :C6)
 SubClassOf(:C4 <http://www.corporate-semantic-web.de/ontologies/cohesion/test/oh/modularization1/M_both#C1>)
 
 # Class: :C5 (:C5)
