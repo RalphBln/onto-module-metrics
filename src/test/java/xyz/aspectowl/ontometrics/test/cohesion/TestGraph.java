@@ -8,7 +8,7 @@ import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author ralph
+ * @author Ralph Schaefermeier
  */
 public class TestGraph {
 

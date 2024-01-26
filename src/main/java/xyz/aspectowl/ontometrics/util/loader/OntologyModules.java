@@ -1,7 +1,7 @@
 /**
  * 
  */
-package xyz.aspectowl.ontometrics;
+package xyz.aspectowl.ontometrics.util.loader;
 
 import java.util.stream.Stream;
 
@@ -12,7 +12,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * Represents an ontology modularization. Contains a number of ontologies that
  * represent the modules.
  * 
- * @author ralph
+ * @author Ralph Schaefermeier
  */
 public interface OntologyModules {
 	public void loadAllOntologyModules();

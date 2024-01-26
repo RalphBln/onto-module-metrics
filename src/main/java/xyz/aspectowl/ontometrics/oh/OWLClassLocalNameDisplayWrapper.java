@@ -8,7 +8,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 
 /**
- * @author ralph
+ * @author Ralph Schaefermeier
  */
 public class OWLClassLocalNameDisplayWrapper extends OWLClassImpl {
 

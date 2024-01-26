@@ -1,7 +1,7 @@
 /**
  * 
  */
-package xyz.aspectowl.ontometrics;
+package xyz.aspectowl.ontometrics.util.loader;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -23,9 +23,9 @@ import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
- * @author ralph
+ * @author Ralph Schaefermeier
  */
-public class Util {
+public class OntologyModuleLoader {
 
 	public static Set<OWLOntology> loadOntologies(File dir) {
 

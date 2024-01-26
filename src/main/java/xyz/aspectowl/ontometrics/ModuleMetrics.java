@@ -3,17 +3,14 @@
  */
 package xyz.aspectowl.ontometrics;
 
-import java.util.HashMap;
+import com.google.common.collect.HashMultimap;
 import java.util.Set;
-
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import com.google.common.collect.HashMultimap;
-
 /**
- * @author ralph
+ * @author Ralph Schaefermeier
  */
 public class ModuleMetrics {
 
@@ -38,9 +35,6 @@ public class ModuleMetrics {
 		HashMultimap<OWLClass, OWLClass> toExternalInstances = HashMultimap.create();
 		HashMultimap<OWLClass, OWLClass> fromInternalInstances = HashMultimap.create();
 		HashMultimap<OWLClass, OWLClass> fromExternalInstances = HashMultimap.create();
-		
 	}
-	
 
-	
 }

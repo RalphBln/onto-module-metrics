@@ -16,13 +16,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-import xyz.aspectowl.ontometrics.Util;
-import xyz.aspectowl.ontometrics.oh.OhCohesion;
+import xyz.aspectowl.ontometrics.util.loader.OntologyModuleLoader;
+import xyz.aspectowl.ontometrics.Cohesion;
 
 /**
  * The tests in this test case are taken from the examples in the paper by Oh et al.
  * 
- * @author ralph
+ * @author Ralph Schaefermeier
  */
 public class TestOhCohesion {
 	
@@ -44,18 +44,18 @@ public class TestOhCohesion {
 
 	@Test
 	public void testCohesionM1() throws Exception {
-		OWLOntology onto = Util.loadOntology(new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization1/all.owl").toString())));
+		OWLOntology onto = OntologyModuleLoader.loadOntology(new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization1/all.owl").toString())));
 		testOhCohesion(onto);
 	}
 
 	@Test
 	public void testCohesionM2() throws Exception {
-		OWLOntology onto = Util.loadOntology(new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization2/all.owl").toString())));
+		OWLOntology onto = OntologyModuleLoader.loadOntology(new File(URI.create(TestOhCohesion.class.getResource("/oh/modularization2/all.owl").toString())));
 		testOhCohesion(onto);
 	}
 
 	private void testOhCohesion(OWLOntology onto) {
-		OhCohesion oh = new OhCohesion(onto);
+		Cohesion oh = new Cohesion(onto);
 		oh.modules().forEach(module -> {
 			Double expectedValue = expectedValues.get(module.getName());
 			if (expectedValue != null)

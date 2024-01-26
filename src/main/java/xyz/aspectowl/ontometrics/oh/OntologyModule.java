@@ -20,7 +20,24 @@ import org.semanticweb.owlapi.model.parameters.AxiomAnnotations;
 import org.semanticweb.owlapi.model.parameters.Imports;
 
 /**
- * @author ralph
+ * Oh et al. only look at class relations. They make a distinction between
+ * hierarchical and non-hierarchical class relations and weigh them differently.
+ *
+ * Hierarchical class relations are sub-/superclass relations.
+ *
+ * Non-hierarchical class relations are:
+ *
+ * ClassExpression :=
+ Class |
+ ObjectIntersectionOf | ObjectUnionOf | ObjectComplementOf | ObjectOneOf |
+ ObjectSomeValuesFrom | ObjectAllValuesFrom | ObjectHasValue | ObjectHasSelf |
+ ObjectMinCardinality | ObjectMaxCardinality | ObjectExactCardinality |
+ DataSomeValuesFrom | DataAllValuesFrom | DataHasValue |
+ DataMinCardinality | DataMaxCardinality | DataExactCardinality
+
+
+ *
+ * @author Ralph Schaefermeier
  */
 public class OntologyModule {
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package xyz.aspectowl.ontometrics;
+package xyz.aspectowl.ontometrics.util.loader;
 
 import java.io.File;
 import java.util.stream.Stream;
@@ -12,7 +12,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
- * @author ralph
+ * @author Ralph Schaefermeier
  */
 public class ImportBasedOntologyModules implements OntologyModules {
 
