@@ -20,7 +20,7 @@ import xyz.aspectowl.ontometrics.util.loader.OntologyModuleLoader;
 import xyz.aspectowl.ontometrics.Cohesion;
 
 /**
- * The tests in this test case are taken from the examples in the paper by Oh et al.
+ * The tests in this test case are taken from the examples in the paper by Oh2011 et al.
  * 
  * @author Ralph Schaefermeier
  */

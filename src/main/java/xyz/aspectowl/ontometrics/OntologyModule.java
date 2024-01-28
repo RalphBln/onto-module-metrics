@@ -1,7 +1,7 @@
 /**
  * 
  */
-package xyz.aspectowl.ontometrics.oh;
+package xyz.aspectowl.ontometrics;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -20,7 +20,7 @@ import org.semanticweb.owlapi.model.parameters.AxiomAnnotations;
 import org.semanticweb.owlapi.model.parameters.Imports;
 
 /**
- * Oh et al. only look at class relations. They make a distinction between
+ * Oh2011 et al. only look at class relations. They make a distinction between
  * hierarchical and non-hierarchical class relations and weigh them differently.
  *
  * Hierarchical class relations are sub-/superclass relations.

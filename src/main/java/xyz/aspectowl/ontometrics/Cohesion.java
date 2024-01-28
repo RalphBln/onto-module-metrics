@@ -23,11 +23,10 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
-import xyz.aspectowl.ontometrics.oh.OntologyModule;
 
 
 /**
- * Oh et al. only look at class relations. They make a distinction between
+ * Oh2011 et al. only look at class relations. They make a distinction between
  * hierarchical and non-hierarchical class relations and weigh them differently.
  * 
  * Hierarchical class relations are sub-/superclass relations.

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package xyz.aspectowl.ontometrics.oh;
+package xyz.aspectowl.ontometrics.util;
 
 import org.semanticweb.owlapi.model.OWLClass;
 
