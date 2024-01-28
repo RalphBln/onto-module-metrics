@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import xyz.aspectowl.ontometrics.metrics.impl.Oh2011;
 import xyz.aspectowl.ontometrics.util.loader.OntologyModuleLoader;
 import xyz.aspectowl.ontometrics.Cohesion;
 
@@ -55,7 +56,7 @@ public class TestOhCohesion {
 	}
 
 	private void testOhCohesion(OWLOntology onto) {
-		Cohesion oh = new Cohesion(onto);
+		Cohesion oh = new Cohesion(onto, Oh2011.class);
 		oh.modules().forEach(module -> {
 			Double expectedValue = expectedValues.get(module.getName());
 			if (expectedValue != null)

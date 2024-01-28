@@ -1,10 +1,9 @@
 /**
  * 
  */
-package xyz.aspectowl.ontometrics;
+package xyz.aspectowl.ontometrics.metrics;
 
 import java.util.HashSet;
-import java.util.Optional;
 
 import org.javatuples.Pair;
 import org.jgrapht.Graph;
@@ -39,82 +38,35 @@ import org.semanticweb.owlapi.model.parameters.Imports;
  *
  * @author Ralph Schaefermeier
  */
-public class OntologyModule {
+public abstract class OntologyModuleBase implements OntologyModule {
 
-	private OWLOntology onto;
+	protected OWLOntology onto;
 
-	SimpleDirectedGraph<OWLObject, DefaultEdge> internalHieriarchicalRelations = new SimpleDirectedGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
-	SimpleGraph<OWLObject, DefaultEdge> internalNonHieriarchicalRelations = new SimpleGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
+	protected SimpleDirectedGraph<OWLObject, DefaultEdge> internalHieriarchicalRelations = new SimpleDirectedGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
+	protected SimpleGraph<OWLObject, DefaultEdge> internalNonHieriarchicalRelations = new SimpleGraph<OWLObject, DefaultEdge>(DefaultEdge.class);
+
+	protected HashSet<Pair<OWLObject, OWLObject>> externalHierarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
+	protected HashSet<Pair<OWLObject, OWLObject>> externalNonHierarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
 	
-	private HashSet<Pair<OWLObject, OWLObject>> externalHierarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
-	private HashSet<Pair<OWLObject, OWLObject>> externalNonHierarchicalRelations = new HashSet<Pair<OWLObject, OWLObject>>();
-	
-	private double cohesionCachedValue = -1d;
-	private double couplingCachedValue = -1d;
-	private double couplingHierarchicalCachedValue = -1d;
-	private double couplingNonHierarchicalCachedValue = -1d;
+	protected double cohesionCachedValue = -1d;
+	protected double couplingCachedValue = -1d;
+	protected double couplingHierarchicalCachedValue = -1d;
+	protected double couplingNonHierarchicalCachedValue = -1d;
 
 
 	/**
 	 * 
 	 */
-	public OntologyModule(OWLOntology onto) {
+	public OntologyModuleBase(OWLOntology onto) {
 		this.onto = onto;
 	}
-	
-	public double cohesion() {
-		if (cohesionCachedValue == -1) {
-			double entityCount = onto.classesInSignature(Imports.EXCLUDED).count() + onto.individualsInSignature(Imports.EXCLUDED).count();
-			cohesionCachedValue = entityCount == 1 ? 1d : (sr() + (double)internalNonHieriarchicalRelations.edgeSet().size()) / (entityCount * (entityCount - 1)) * 2d;
-		}
-		return cohesionCachedValue;
-	}
-	
-	private double sr() {
-		var dijkstra = new DijkstraShortestPath<>(internalHieriarchicalRelations);
 
-		return internalHieriarchicalRelations.vertexSet().stream()
-				.flatMap(v1 -> internalHieriarchicalRelations.vertexSet().stream()
-						.map(v2 -> dijkstra.getPath(v1, v2)))
-				.filter(path -> path != null)
-				.map(path -> path.getLength())
-				.filter(pathLength -> pathLength != 0)
-				.mapToDouble(pathLength -> 1d/pathLength.doubleValue())
-				.sum();
-	}
-	
-	public double coupling() {
-		if (couplingCachedValue == -1d) {
-			couplingCachedValue = ratio((double)(externalHierarchicalRelations.size() + externalNonHierarchicalRelations.size()), (double)(internalHieriarchicalRelations.edgeSet().size() + internalNonHieriarchicalRelations.edgeSet().size()));
-		}
-		return couplingCachedValue;
-	}
-	
-	public double couplingHierarchical() {
-		if (couplingHierarchicalCachedValue == -1d) {
-			couplingHierarchicalCachedValue = ratio((double) externalHierarchicalRelations.size(), (double)internalHieriarchicalRelations.edgeSet().size());
-		}
-		return couplingHierarchicalCachedValue;
-	}
-	
-	public double couplingNonHierarchical() {
-		if (couplingNonHierarchicalCachedValue == -1d) {
-			couplingNonHierarchicalCachedValue = ratio((double) externalNonHierarchicalRelations.size(), (double)internalNonHieriarchicalRelations.edgeSet().size());
-		}
-		return couplingNonHierarchicalCachedValue;
-	}
-	
-	private double ratio(double external, double internal) {
-		if (external == 0d)
-			return 0d;
-		return external / (external + internal);
-	}
-	
-	
+	@Override
 	public void processInternalHierarchicalRelation(OWLObject c1, OWLObject c2) {
 		processInternalRelation(internalHieriarchicalRelations, c1, c2);
 	}
 
+	@Override
 	public void processInternalNonHierarchicalRelation(OWLObject c1, OWLObject c2) {
 		processInternalRelation(internalNonHieriarchicalRelations, c1, c2);
 	}
@@ -132,13 +84,13 @@ public class OntologyModule {
 		g.addVertex(c2);
 		g.addEdge(c1, c2);
 	}
-	
 
-
+	@Override
 	public void processExternalHierarchicalRelation(OWLObject c1, OWLObject c2) {
 		processExternalRelation(externalHierarchicalRelations, c1, c2);
 	}
 
+	@Override
 	public void processExternalNonHierarchicalRelation(OWLObject c1, OWLObject c2) {
 		processExternalRelation(externalNonHierarchicalRelations, c1, c2);
 	}
@@ -154,7 +106,8 @@ public class OntologyModule {
 
 		externalRelationsSet.add(Pair.with(c1, c2));
 	}
-	
+
+	@Override
 	public boolean contains(OWLObject object) {
 		if (object instanceof OWLEntity)
 			return onto.getEntitiesInSignature(((OWLEntity)object).getIRI(), Imports.EXCLUDED).contains(object);
@@ -162,7 +115,8 @@ public class OntologyModule {
 			return onto.containsAxiom(((OWLAxiom)object), Imports.EXCLUDED, AxiomAnnotations.IGNORE_AXIOM_ANNOTATIONS);
 		return false;
 	}
-	
+
+	@Override
 	public String getName() {
 		return onto.getOntologyID().getOntologyIRI().get().getShortForm();
 	}

@@ -3,6 +3,7 @@
  */
 package xyz.aspectowl.ontometrics;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -23,6 +24,9 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
+import xyz.aspectowl.ontometrics.metrics.OntologyModule;
+import xyz.aspectowl.ontometrics.metrics.OntologyModuleBase;
+import xyz.aspectowl.ontometrics.metrics.OntologyModuleFactory;
 
 
 /**
@@ -49,7 +53,7 @@ public class Cohesion {
 
 	private OWLOntology baseOnto;
 
-	private HashSetValuedHashMap<OWLObject, OntologyModule> ontologyModulesByEntity = new HashSetValuedHashMap<OWLObject, OntologyModule>();
+	private HashSetValuedHashMap<OWLObject, OntologyModule> ontologyModulesByEntity = new HashSetValuedHashMap<>();
 	
 	private Set<OWLObject> internalSignature;
 	private HashSet<OWLObject> mergedExternalSignatures;
@@ -58,26 +62,29 @@ public class Cohesion {
 	 * 
 	 * @param baseOnto The uppermost ontology in the import tree 
 	 */
-	public Cohesion(OWLOntology baseOnto) {
+	public Cohesion(OWLOntology baseOnto, Class<? extends OntologyModule> moduleClass) {
 		this.baseOnto = baseOnto;
 		
 		// Fore each entity, store all ontology modules where the entity appears
 		// in the signature
 		
 		OWLOntologyManager om = baseOnto.getOWLOntologyManager();
-		
-		om.ontologies()
-		.forEach(ontology -> {
-			OntologyModule module = new OntologyModule(ontology);
-			ontology.classesInSignature(Imports.EXCLUDED)
-			.forEach(clazz -> ontologyModulesByEntity.put(clazz, module));
-			ontology.individualsInSignature(Imports.EXCLUDED)
-			.forEach(individual -> ontologyModulesByEntity.put(individual, module));
-			ontology.axioms(Imports.EXCLUDED)
-			.forEach(axiom -> ontologyModulesByEntity.put(axiom, module));
-		});
-		
-		
+
+    om.ontologies()
+        .forEach(
+            ontology -> {
+                OntologyModule module = OntologyModuleFactory.getInstance().createOntologyModule(moduleClass, ontology);
+                ontology
+                  .classesInSignature(Imports.EXCLUDED)
+                  .forEach(clazz -> ontologyModulesByEntity.put(clazz, module));
+              ontology
+                  .individualsInSignature(Imports.EXCLUDED)
+                  .forEach(individual -> ontologyModulesByEntity.put(individual, module));
+              ontology
+                  .axioms(Imports.EXCLUDED)
+                  .forEach(axiom -> ontologyModulesByEntity.put(axiom, module));
+            });
+
 		baseOnto.classesInSignature(Imports.INCLUDED).forEach(clazz -> {
 			baseOnto.axioms(clazz, Imports.INCLUDED).forEach(axiom -> {
 				if (axiom.isOfType(Stream.of(AxiomType.SUBCLASS_OF))) {
