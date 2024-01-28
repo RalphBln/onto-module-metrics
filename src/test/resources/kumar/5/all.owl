@@ -1,0 +1,26 @@
+Prefix(:=<http://aspectowl.xyz/cohesion/kumar/ontology5/all#>)
+Prefix(m1:=<http://aspectowl.xyz/cohesion/kumar/ontology5/m1#>)
+Prefix(m2:=<http://aspectowl.xyz/cohesion/kumar/ontology5/m2#:>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://aspectowl.xyz/cohesion/kumar/ontology5/all>
+Import(<http://aspectowl.xyz/cohesion/kumar/ontology5/m1>)
+Import(<http://aspectowl.xyz/cohesion/kumar/ontology5/m2>)
+
+
+############################
+#   Classes
+############################
+
+# Class: m1:D (m1:D)
+
+SubClassOf(m1:D m2:C)
+
+
+SubClassOf(ObjectSomeValuesFrom(m1:R m1:B) m2:A)
+)

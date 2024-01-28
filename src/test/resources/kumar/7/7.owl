@@ -1,0 +1,30 @@
+Prefix(:=<http://aspectowl.xyz/cohesion/kumar/ontology7#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://aspectowl.xyz/cohesion/kumar/ontology7>
+
+Declaration(Class(:A))
+Declaration(Class(:B1))
+Declaration(Class(:B2))
+Declaration(Class(:B3))
+Declaration(Class(:B4))
+Declaration(Class(:B5))
+Declaration(Class(:C1))
+Declaration(Class(:C2))
+Declaration(Class(:C3))
+############################
+#   Classes
+############################
+
+# Class: :A (:A)
+
+SubClassOf(:A ObjectIntersectionOf(:B1 :B2 :B3 :B4 :B5))
+
+
+SubClassOf(ObjectUnionOf(:C1 :C2 :C3) :A)
+)
