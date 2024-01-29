@@ -6,6 +6,7 @@ package xyz.aspectowl.ontometrics.test.cohesion;
 import java.io.File;
 import java.net.URI;
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collector;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.parameters.Imports;
 import xyz.aspectowl.ontometrics.metrics.impl.Oh2011;
 import xyz.aspectowl.ontometrics.util.loader.OntologyModuleLoader;
 import xyz.aspectowl.ontometrics.Cohesion;
@@ -27,12 +30,55 @@ import xyz.aspectowl.ontometrics.Cohesion;
  */
 public class TestOhCohesion {
 	
-	private Map<String, Double> expectedValues = Collections.unmodifiableMap(Stream.of(
-			entry("M1", 7d / 12d),
-			entry("M2", 1d),
-			entry("M3", 1d),
-			entry("Ma", 2d / 3d),
-			entry("Mb", 11d / 20d)			
+	private Map<String, Map<String, Double>> expectedValues = Collections.unmodifiableMap(Stream.of(
+			entry("M1", Map.of(
+					"value", 7d / 12d,
+					"delta", 0d
+			)),
+			entry("M2", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("M3", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("Ma", Map.of(
+					"value", 2d / 3d,
+					"delta", 0d
+			)),
+			entry("Mb", Map.of(
+					"value", 11d / 20d,
+					"delta", 0d
+			)),
+			entry("ontology1", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("ontology2", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("ontology3", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("ontology4", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("ontology7", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("ontology8", Map.of(
+					"value", 1d,
+					"delta", 0d
+			)),
+			entry("ontology9", Map.of(
+					"value", 1d,
+					"delta", 0d
+			))
 			).collect(entriesToMap()));
 
 	public static <K, V> Map.Entry<K, V> entry(K key, V value) {
@@ -55,12 +101,31 @@ public class TestOhCohesion {
 		testOhCohesion(onto);
 	}
 
+	@Test
+	public void testKumarExamples() throws Exception {
+		File baseFolder = new File(URI.create(TestOhCohesion.class.getResource("/kumar").toString()));
+    Arrays.stream(baseFolder.listFiles(file -> file.isDirectory()))
+        .forEach(
+            folder ->
+                Arrays.stream(
+                    folder.listFiles(file -> file.isFile() && file.getName().endsWith(".owl"))).forEach(
+							owlFile ->
+                            {
+                                try {
+                                    testOhCohesion(OntologyModuleLoader.loadOntology(owlFile));
+                                } catch (OWLOntologyCreationException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+						));
+	}
+
 	private void testOhCohesion(OWLOntology onto) {
 		Cohesion oh = new Cohesion(onto, Oh2011.class);
 		oh.modules().forEach(module -> {
-			Double expectedValue = expectedValues.get(module.getName());
+			Map<String, Double> expectedValue = expectedValues.get(module.getName());
 			if (expectedValue != null)
-				Assertions.assertEquals((double)expectedValue, module.cohesion(), 0d);
+				Assertions.assertEquals(expectedValue.get("value"), module.cohesion(), expectedValue.get("delta"));
 			System.out.println(module.getName() + ": " + module.couplingHierarchical() + ", " + module.couplingNonHierarchical() + ", " + module.coupling());
 		});
 	}

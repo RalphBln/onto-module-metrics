@@ -1,13 +1,11 @@
 /**
- * 
+ *
  */
 package xyz.aspectowl.ontometrics;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
-
 import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAnonymousClassExpression;
@@ -25,28 +23,9 @@ import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
 import xyz.aspectowl.ontometrics.metrics.OntologyModule;
-import xyz.aspectowl.ontometrics.metrics.OntologyModuleBase;
 import xyz.aspectowl.ontometrics.metrics.OntologyModuleFactory;
 
-
 /**
- * Oh2011 et al. only look at class relations. They make a distinction between
- * hierarchical and non-hierarchical class relations and weigh them differently.
- * 
- * Hierarchical class relations are sub-/superclass relations.
- * 
- * Non-hierarchical class relations are:
- * 
- * ClassExpression :=
-    Class |
-    ObjectIntersectionOf | ObjectUnionOf | ObjectComplementOf | ObjectOneOf |
-    ObjectSomeValuesFrom | ObjectAllValuesFrom | ObjectHasValue | ObjectHasSelf |
-    ObjectMinCardinality | ObjectMaxCardinality | ObjectExactCardinality |
-    DataSomeValuesFrom | DataAllValuesFrom | DataHasValue |
-    DataMinCardinality | DataMaxCardinality | DataExactCardinality
-
-
- * 
  * @author Ralph Schaefermeier
  */
 public class Cohesion {
@@ -54,20 +33,20 @@ public class Cohesion {
 	private OWLOntology baseOnto;
 
 	private HashSetValuedHashMap<OWLObject, OntologyModule> ontologyModulesByEntity = new HashSetValuedHashMap<>();
-	
+
 	private Set<OWLObject> internalSignature;
 	private HashSet<OWLObject> mergedExternalSignatures;
-	
+
 	/**
-	 * 
-	 * @param baseOnto The uppermost ontology in the import tree 
+	 *
+	 * @param baseOnto The uppermost ontology in the import tree
 	 */
 	public Cohesion(OWLOntology baseOnto, Class<? extends OntologyModule> moduleClass) {
 		this.baseOnto = baseOnto;
-		
+
 		// Fore each entity, store all ontology modules where the entity appears
 		// in the signature
-		
+
 		OWLOntologyManager om = baseOnto.getOWLOntologyManager();
 
     om.ontologies()
@@ -101,7 +80,7 @@ public class Cohesion {
 				}
 			});
 		});
-		
+
 		baseOnto.individualsInSignature(Imports.INCLUDED).forEach(individual -> {
 			baseOnto.axioms(individual, Imports.INCLUDED).forEach(axiom -> {
 				if (axiom.isOfType(Stream.of(AxiomType.CLASS_ASSERTION))) {
@@ -120,15 +99,15 @@ public class Cohesion {
 				}
 			});
 		});
-		
+
 		baseOnto.axioms(Imports.INCLUDED).forEach(axiom -> {
 			axiom.annotations().forEach(annotation -> {
 				processNonHierarchicalClassRelation(axiom, annotation.getValue());
 			});
 		});
-		
+
 	}
-	
+
 	private void processHierarchicalClassRelation(OWLObject c1, OWLObject c2) {
 		if (c1.equals(c2))
 			return;
@@ -154,7 +133,7 @@ public class Cohesion {
 	private void processNonHierarchicalClassRelation(OWLObject c1, OWLObject c2) {
 		if (c1.equals(c2))
 			return;
-		
+
 		ontologyModulesByEntity.get(c1).stream().forEach(sourceModule -> {
 			if (sourceModule.contains(c2)) {
 				// internal relation
@@ -175,9 +154,9 @@ public class Cohesion {
 		});
 
 	}
-	
+
 	public Stream<OntologyModule> modules() {
 		return ontologyModulesByEntity.values().stream().distinct();
 	}
-	
+
 }
