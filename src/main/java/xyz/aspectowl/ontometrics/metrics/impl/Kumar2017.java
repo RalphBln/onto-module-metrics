@@ -8,35 +8,35 @@ import xyz.aspectowl.ontometrics.metrics.OntologyModuleBase;
  */
 public class Kumar2017 extends OntologyModuleBase {
 
-    /**
-     * @param onto
-     */
-    public Kumar2017(OWLOntology onto) {
-        super(onto);
-    }
+  /**
+   * @param onto
+   */
+  public Kumar2017(OWLOntology onto) {
+    super(onto);
+  }
 
-    @Override
-    public double cohesion() {
-        return 0;
-    }
+  @Override
+  public double cohesion() {
+    return 0;
+  }
 
-    @Override
-    public double coupling() {
-        return 0;
-    }
+  @Override
+  public double coupling() {
+    return 0;
+  }
 
-    @Override
-    public double couplingHierarchical() {
-        return 0;
-    }
+  @Override
+  public double couplingHierarchical() {
+    return 0;
+  }
 
-    @Override
-    public double couplingNonHierarchical() {
-        return 0;
-    }
+  @Override
+  public double couplingNonHierarchical() {
+    return 0;
+  }
 
-    @Override
-    public double strengthOfRelation() {
-        return 0;
-    }
+  @Override
+  public double strengthOfRelation() {
+    return 0;
+  }
 }
