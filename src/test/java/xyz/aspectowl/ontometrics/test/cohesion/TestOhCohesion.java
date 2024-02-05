@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import xyz.aspectowl.ontometrics.Cohesion;
+import xyz.aspectowl.ontometrics.cohesion.CohesionCouplingMetric;
+import xyz.aspectowl.ontometrics.cohesion.Kumar2017;
 import xyz.aspectowl.ontometrics.metrics.impl.Oh2011;
 import xyz.aspectowl.ontometrics.util.loader.OntologyModuleLoader;
 
@@ -20,7 +22,7 @@ import xyz.aspectowl.ontometrics.util.loader.OntologyModuleLoader;
  *
  * @author Ralph Schaefermeier
  */
-public class TestOhCohesion {
+public class TestOhCohesion extends TestBase {
 
   private Map<String, Map<String, Double>> expectedValues =
       Collections.unmodifiableMap(
@@ -91,7 +93,7 @@ public class TestOhCohesion {
                 URI.create(
                     TestOhCohesion.class.getResource("/oh/modularization1/all.owl").toString())));
     testOhCohesion(onto);
-    testNewOhCohesion(onto);
+    testOhAndKumarCohesion(onto);
   }
 
   @Test
@@ -102,7 +104,7 @@ public class TestOhCohesion {
                 URI.create(
                     TestOhCohesion.class.getResource("/oh/modularization2/all.owl").toString())));
     testOhCohesion(onto);
-    testNewOhCohesion(onto);
+    testOhAndKumarCohesion(onto);
   }
 
   @Test
@@ -116,12 +118,20 @@ public class TestOhCohesion {
                     .forEach(
                         owlFile -> {
                           try {
-                            System.out.println(owlFile.getName());
-                            testNewOhCohesion(OntologyModuleLoader.loadOntology(owlFile));
+                            System.out.format("%n%s%n", owlFile.getName());
+                            testOhAndKumarCohesion(OntologyModuleLoader.loadOntology(owlFile));
                           } catch (OWLOntologyCreationException e) {
                             throw new RuntimeException(e);
                           }
                         }));
+  }
+
+  @Test
+  public void testEquivalences() {
+    var onto = loadOntology("/equivalence/equivalence1.owl");
+    var oh = new xyz.aspectowl.ontometrics.cohesion.Oh2011();
+    oh.addModule(onto);
+    System.out.println(oh.getCohesion(onto));
   }
 
   private void testOhCohesion(OWLOntology onto) {
@@ -143,16 +153,21 @@ public class TestOhCohesion {
             });
   }
 
-  private void testNewOhCohesion(OWLOntology onto) {
-    xyz.aspectowl.ontometrics.cohesion.Oh2011 oh = new xyz.aspectowl.ontometrics.cohesion.Oh2011();
-    onto.getOWLOntologyManager().ontologies().forEach(o -> oh.addModule(o));
+  private void testOhAndKumarCohesion(OWLOntology onto) {
+    testCohesion(onto, new xyz.aspectowl.ontometrics.cohesion.Oh2011());
+    testCohesion(onto, new Kumar2017());
+  }
+
+  private void testCohesion(OWLOntology onto, CohesionCouplingMetric metric) {
+    onto.getOWLOntologyManager().ontologies().forEach(o -> metric.addModule(o));
     onto.getOWLOntologyManager()
         .ontologies()
         .forEach(
             module ->
                 System.out.format(
-                    "%s: coh=%f%n",
+                    "%s - %s: coh=%f%n",
                     module.getOntologyID().getOntologyIRI().get().getShortForm(),
-                    oh.getCohesion(module)));
+                    metric.getClass().getSimpleName(),
+                    metric.getCohesion(module)));
   }
 }

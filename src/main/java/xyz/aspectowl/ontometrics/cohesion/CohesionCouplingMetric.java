@@ -41,6 +41,11 @@ public abstract class CohesionCouplingMetric {
 
   public void addModule(OWLOntology module) {
     var moduleGraph = graphFromOntologyModule(module);
+
+    // for debugging
+    // todo remove
+//    GraphRenderer.exportToGml(moduleGraph, module);
+
     moduleGraphs.put(module, moduleGraph);
     moduleDijkstras.put(moduleGraph, new DijkstraShortestPath<>(moduleGraph));
 

@@ -16,7 +16,7 @@ import xyz.aspectowl.ontometrics.util.GraphFactory;
 /**
  * @author Ralph Schäfermeier
  */
-public class Oh2011 extends CohesionCouplingMetric {
+public class Kumar2017 extends CohesionCouplingMetric {
 
   private OWLAxiomVisitorEx<SimpleDirectedWeightedGraph<OWLEntity, DefaultWeightedEdge>>
       axiomVisitor;
@@ -73,7 +73,7 @@ public class Oh2011 extends CohesionCouplingMetric {
   @Override
   protected OWLAxiomVisitorEx<SimpleDirectedWeightedGraph<OWLEntity, DefaultWeightedEdge>>
       getAxiomVisitor() {
-    if (axiomVisitor == null) axiomVisitor = new Oh2011AxiomVisitor();
+    if (axiomVisitor == null) axiomVisitor = new Kumar2017AxiomVisitor();
     return axiomVisitor;
   }
 
@@ -109,7 +109,7 @@ public class Oh2011 extends CohesionCouplingMetric {
     return g.build();
   }
 
-  private static class Oh2011AxiomVisitor
+  private static class Kumar2017AxiomVisitor
       extends OWLAxiomVisitorExAdapter<
           SimpleDirectedWeightedGraph<OWLEntity, DefaultWeightedEdge>> {
 
@@ -129,12 +129,12 @@ public class Oh2011 extends CohesionCouplingMetric {
         // For Oh, the link strength remains 1.
         // in any case, the link strength calculations will be applied to the filler of the
         // existentially quantified restriction
-        preliminaryWeight = 1d;
+        preliminaryWeight = 3d;
         preliminarySubClassExp = ((OWLObjectSomeValuesFrom) preliminarySubClassExp).getFiller();
       }
       if (preliminarySubClassExp instanceof OWLObjectSomeValuesFrom) {
         // Same for existential quantification in the superClass position
-        preliminaryWeight = 1d;
+        preliminaryWeight = 3d;
         preliminarySubClassExp = ((OWLObjectSomeValuesFrom) preliminarySubClassExp).getFiller();
       }
 
@@ -161,18 +161,33 @@ public class Oh2011 extends CohesionCouplingMetric {
         g.addEdge(subClassExp.asOWLClass(), superClassExp.asOWLClass(), 1.0 * weight);
       } else if (subClassExp.isNamed() && superClassExp instanceof OWLObjectUnionOf) {
         // Kumar2017 case #1
+        double n = (double) ((OWLObjectUnionOf) superClassExp).operands().count();
+        double weightEachOperand = 3d * (n - 1d) / n;
         ((OWLObjectUnionOf) superClassExp)
             .operands()
             .filter(IsAnonymous::isNamed)
-            .forEach(c -> g.addEdge(subClassExp.asOWLClass(), c.asOWLClass(), 1.0 * weight));
+            .forEach(
+                c ->
+                    g.addEdge(
+                        subClassExp.asOWLClass(),
+                        c.asOWLClass(),
+                        1.0 * weightEachOperand * weight));
       } else if (subClassExp instanceof OWLObjectIntersectionOf && superClassExp.isNamed()) {
         // Kumar2017 case #2
+        double n = (double) ((OWLObjectIntersectionOf) subClassExp).operands().count();
+        double weightEachOperand = 3d * (n - 1d);
         ((OWLObjectIntersectionOf) subClassExp)
             .operands()
             .filter(IsAnonymous::isNamed)
-            .forEach(c -> g.addEdge(c.asOWLClass(), superClassExp.asOWLClass(), 1.0 * weight));
+            .forEach(
+                c ->
+                    g.addEdge(
+                        c.asOWLClass(),
+                        superClassExp.asOWLClass(),
+                        1.0 * weightEachOperand * weight));
       } else if (subClassExp.isNamed() && superClassExp instanceof OWLObjectIntersectionOf) {
         // Kumar2017 case #3
+        // independent of number concepts, so no additional weighting
         ((OWLObjectIntersectionOf) superClassExp)
             .operands()
             .filter(IsAnonymous::isNamed)
