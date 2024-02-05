@@ -1,0 +1,24 @@
+Prefix(:=<http://aspectowl.xyz/evaluation/odp/test/kumar-case1/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://aspectowl.xyz/evaluation/odp/test/kumar-case1>
+
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/test/kumar-case1#A>))
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/test/kumar-case1#B1>))
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/test/kumar-case1#B2>))
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/test/kumar-case1#B3>))
+############################
+#   Classes
+############################
+
+# Class: <http://aspectowl.xyz/evaluation/odp/test/kumar-case1#A> (<http://aspectowl.xyz/evaluation/odp/test/kumar-case1#A>)
+
+SubClassOf(<http://aspectowl.xyz/evaluation/odp/test/kumar-case1#A> ObjectUnionOf(<http://aspectowl.xyz/evaluation/odp/test/kumar-case1#B1> <http://aspectowl.xyz/evaluation/odp/test/kumar-case1#B2> <http://aspectowl.xyz/evaluation/odp/test/kumar-case1#B3>))
+
+
+)

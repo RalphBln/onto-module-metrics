@@ -7,7 +7,6 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 
 Ontology(<http://www.corporate-semantic-web.de/ontologies/aood/test/B>
-Import(<http://www.corporate-semantic-web.de/ontologies/aood/test/A>)
 
 Declaration(Class(:B1))
 Declaration(Class(:B2))

@@ -1,0 +1,25 @@
+Prefix(:=<http://aspectowl.xyz/evaluation/odp/test/testaspect1/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://aspectowl.xyz/evaluation/odp/test/testaspect1>
+
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/test/testaspect1#A>))
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/test/testaspect1#Aspect1>))
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/test/testaspect1#B>))
+Declaration(AnnotationProperty(<http://aspectowl.xyz/evaluation/odp/test/testaspect1#hasAspect>))
+
+############################
+#   Classes
+############################
+
+# Class: <http://aspectowl.xyz/evaluation/odp/test/testaspect1#B> (<http://aspectowl.xyz/evaluation/odp/test/testaspect1#B>)
+
+SubClassOf(Annotation(<http://aspectowl.xyz/evaluation/odp/test/testaspect1#hasAspect> <http://aspectowl.xyz/evaluation/odp/test/testaspect1#Aspect1>) <http://aspectowl.xyz/evaluation/odp/test/testaspect1#B> <http://aspectowl.xyz/evaluation/odp/test/testaspect1#A>)
+
+
+)
