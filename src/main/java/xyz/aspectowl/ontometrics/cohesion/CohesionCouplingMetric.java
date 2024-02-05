@@ -1,6 +1,7 @@
 package xyz.aspectowl.ontometrics.cohesion;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,12 +45,59 @@ public abstract class CohesionCouplingMetric {
 
     // for debugging
     // todo remove
-//    GraphRenderer.exportToGml(moduleGraph, module);
+    //    GraphRenderer.exportToGml(moduleGraph, module);
 
     moduleGraphs.put(module, moduleGraph);
     moduleDijkstras.put(moduleGraph, new DijkstraShortestPath<>(moduleGraph));
 
     ontologyDijkstra = new DijkstraShortestPath<>(ontologyGraph);
+  }
+
+  public double getCohesion(OWLOntology module) {
+
+    var graph = module == null ? ontologyGraph : moduleGraphs.get(module);
+
+    var vertices = graph.vertexSet();
+    if (vertices.size() < 2) {
+      return 1;
+    }
+
+    // todo use graph instead of ontology
+    double cardinality = getCardinality(module);
+
+    //    vertices.stream()
+    //        .flatMap(
+    //            v1 ->
+    //                vertices.stream()
+    //                    .filter(v2 -> !v1.equals(v2))
+    //                    .map(v2 -> getShortestPath(graph, v1, v2)))
+    //        .filter(Objects::nonNull)
+    //        .forEach(
+    //            p ->
+    //                System.out.printf(
+    //                    "Path [%s] ; l=%d%n",
+    //                    p.getVertexList().stream()
+    //                        .map(v -> v.getIRI().getShortForm())
+    //                        .collect(Collectors.joining("->")),
+    //                    p.getLength()));
+
+    return vertices.stream()
+            .flatMap(
+                v1 ->
+                    vertices.stream()
+                        .filter(v2 -> !v1.equals(v2))
+                        .map(v2 -> getShortestPath(graph, v1, v2)))
+            .filter(Objects::nonNull)
+            .map(GraphPath::getWeight)
+            .filter(pathWeight -> pathWeight != 0)
+            .mapToDouble(pathWeight -> 1d / pathWeight.doubleValue())
+            .sum()
+        / (cardinality * (cardinality - 1))
+        * 2d;
+  }
+
+  public double getCoupling(OWLOntology module1, OWLOntology module2) {
+    return 0;
   }
 
   /*
@@ -130,10 +178,6 @@ public abstract class CohesionCouplingMetric {
         .flatMap(entity -> entity)
         .allMatch(entity -> graph.containsVertex(entity));
   }
-
-  public abstract double getCohesion(OWLOntology module);
-
-  public abstract double getCoupling(OWLOntology module1, OWLOntology module2);
 
   protected abstract OWLAxiomVisitorEx<SimpleDirectedWeightedGraph<OWLEntity, DefaultWeightedEdge>>
       getAxiomVisitor();
