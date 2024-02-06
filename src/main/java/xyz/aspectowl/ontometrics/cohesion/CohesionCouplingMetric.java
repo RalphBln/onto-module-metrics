@@ -40,7 +40,20 @@ public abstract class CohesionCouplingMetric {
   //    this.axiomVisitor = axiomVisitor;
   //  }
 
+  public void setModularizedOntology(OWLOntology mainOntology) {
+    System.out.format(
+        "*** %s: Adding ontology %s%n",
+        this.getClass().getSimpleName(), mainOntology.getOntologyID().getOntologyIRI().get());
+    mainOntology
+        .getOWLOntologyManager()
+        .importsClosure(mainOntology)
+        .forEach(module -> addModule(module));
+  }
+
   public void addModule(OWLOntology module) {
+    System.out.format(
+        "%s: Adding module %s%n",
+        this.getClass().getSimpleName(), module.getOntologyID().getOntologyIRI().get());
     var moduleGraph = graphFromOntologyModule(module);
 
     // for debugging
@@ -63,7 +76,7 @@ public abstract class CohesionCouplingMetric {
     }
 
     // todo use graph instead of ontology
-    double cardinality = getCardinality(module);
+    double cardinality = getCardinality(graph);
 
     //    vertices.stream()
     //        .flatMap(
@@ -96,8 +109,25 @@ public abstract class CohesionCouplingMetric {
         * 2d;
   }
 
-  public double getCoupling(OWLOntology module1, OWLOntology module2) {
-    return 0;
+  public double getCoupling(OWLOntology module) {
+    var moduleGraph = moduleGraphs.get(module);
+
+    double moduleCardinality = getCardinality(moduleGraph);
+    double restCardinality = getCardinality(ontologyGraph) - moduleCardinality;
+
+    return moduleGraph.vertexSet().stream()
+            .flatMap(
+                v1 ->
+                    ontologyGraph.vertexSet().stream()
+                        .filter(v2 -> !moduleGraph.containsVertex(v2))
+                        .map(v2 -> getShortestPath(ontologyGraph, v1, v2)))
+            .filter(Objects::nonNull)
+            .map(GraphPath::getWeight)
+            .filter(pathWeight -> pathWeight != 0)
+            .mapToDouble(pathWeight -> 1d / pathWeight.doubleValue())
+            .sum()
+        / (moduleCardinality * restCardinality)
+        * 2d;
   }
 
   /*
@@ -160,16 +190,8 @@ public abstract class CohesionCouplingMetric {
     return Optional.ofNullable(moduleDijkstras.get(graph)).orElse(ontologyDijkstra).getPath(a, b);
   }
 
-  public double getCardinality(OWLOntology module) {
-    return (double)
-        (module
-                .individualsInSignature(Imports.EXCLUDED)
-                .filter(individual -> module.isDeclared(individual, Imports.EXCLUDED))
-                .count()
-            + module
-                .classesInSignature(Imports.EXCLUDED)
-                .filter(clazz -> module.isDeclared(clazz, Imports.EXCLUDED))
-                .count());
+  public double getCardinality(Graph moduleGraph) {
+    return (double) moduleGraph.vertexSet().size();
   }
 
   protected boolean checkAllEntitiesDeclaredInModule(

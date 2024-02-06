@@ -1,4 +1,4 @@
-Prefix(:=<http://aspectowl.xyz/cohesion/kumar/ontology6/all>)
+Prefix(:=<http://aspectowl.xyz/cohesion/kumar/ontology6/all#>)
 Prefix(m1:=<http://aspectowl.xyz/cohesion/kumar/ontology6/m1#>)
 Prefix(m2:=<http://aspectowl.xyz/cohesion/kumar/ontology6/m2#>)
 Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
