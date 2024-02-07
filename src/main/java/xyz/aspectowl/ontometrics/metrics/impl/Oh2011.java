@@ -19,6 +19,8 @@ import xyz.aspectowl.ontometrics.metrics.OntologyModuleBase;
  * DataAllValuesFrom | DataHasValue | DataMinCardinality | DataMaxCardinality | DataExactCardinality
  *
  * @author Ralph Schäfermeier
+ * @deprecated Use {@link xyz.aspectowl.ontometrics.cohesion.Oh2011 instead. This class will be
+ *     deleted in the near future.}
  */
 public class Oh2011 extends OntologyModuleBase {
 

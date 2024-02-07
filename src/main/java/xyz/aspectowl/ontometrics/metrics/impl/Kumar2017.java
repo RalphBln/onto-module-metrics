@@ -5,6 +5,8 @@ import xyz.aspectowl.ontometrics.metrics.OntologyModuleBase;
 
 /**
  * @author Ralph Schäfermeier
+ * @deprecated Use {@link xyz.aspectowl.ontometrics.cohesion.Kumar2017 instead. This class will be
+ *     deleted in the near future.}
  */
 public class Kumar2017 extends OntologyModuleBase {
 
