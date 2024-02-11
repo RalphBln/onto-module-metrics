@@ -66,6 +66,10 @@ public abstract class CohesionCouplingMetric {
     ontologyDijkstra = new DijkstraShortestPath<>(ontologyGraph);
   }
 
+  public Stream<OWLOntology> modules() {
+    return moduleGraphs.keySet().stream();
+  }
+
   public double getCohesion(OWLOntology module) {
 
     var graph = module == null ? ontologyGraph : moduleGraphs.get(module);
