@@ -1,0 +1,42 @@
+Prefix(:=<http://aspectowl.xyz/evaluation/odp/untitled-ontology-1227/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect>
+Import(<http://aspectowl.xyz/evaluation/odp/example/merkel/time>)
+Import(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1>)
+
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#Nov2005-Dec2021_Aspect>))
+Declaration(NamedIndividual(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#December2021>))
+Declaration(NamedIndividual(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#November2005>))
+Declaration(AnnotationProperty(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#hasAspect>))
+
+
+############################
+#   Classes
+############################
+
+# Class: <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#Nov2005-Dec2021_Aspect> (<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#Nov2005-Dec2021_Aspect>)
+
+EquivalentClasses(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#Nov2005-Dec2021_Aspect> ObjectHasValue(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#hasBeginning> <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#November2005>))
+EquivalentClasses(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#Nov2005-Dec2021_Aspect> ObjectHasValue(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#hasEnd> <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#December2021>))
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#December2021> (<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#December2021>)
+
+ClassAssertion(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#Instant> <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#December2021>)
+
+# Individual: <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#November2005> (<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#November2005>)
+
+ClassAssertion(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#Instant> <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#November2005>)
+
+
+)

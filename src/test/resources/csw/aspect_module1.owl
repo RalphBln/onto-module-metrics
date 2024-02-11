@@ -1,0 +1,26 @@
+Prefix(:=<http://aspectowl.xyz/evaluation/odp/untitled-ontology-1222/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1>
+
+Declaration(ObjectProperty(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#chancellorOf>))
+Declaration(NamedIndividual(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#Angela_Merkel>))
+Declaration(NamedIndividual(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#Germany>))
+Declaration(AnnotationProperty(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#hasAspect>))
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#Angela_Merkel> (<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#Angela_Merkel>)
+
+ObjectPropertyAssertion(Annotation(<http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#hasAspect> <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect#Nov2005-Dec2021_Aspect>) <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#chancellorOf> <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#Angela_Merkel> <http://aspectowl.xyz/evaluation/odp/example/merkel/aspect/aspect-module1#Germany>)
+
+
+)

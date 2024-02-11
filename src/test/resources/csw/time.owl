@@ -1,0 +1,31 @@
+Prefix(:=<http://aspectowl.xyz/evaluation/odp/example/merkel/time/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://aspectowl.xyz/evaluation/odp/example/merkel/time>
+
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#Instant>))
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#TemporalEntity>))
+Declaration(Class(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#TimeInterval>))
+Declaration(ObjectProperty(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#atTime>))
+Declaration(ObjectProperty(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#hasBeginning>))
+Declaration(ObjectProperty(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#hasEnd>))
+
+############################
+#   Classes
+############################
+
+# Class: <http://aspectowl.xyz/evaluation/odp/example/merkel/time#Instant> (<http://aspectowl.xyz/evaluation/odp/example/merkel/time#Instant>)
+
+SubClassOf(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#Instant> <http://aspectowl.xyz/evaluation/odp/example/merkel/time#TimeInterval>)
+
+# Class: <http://aspectowl.xyz/evaluation/odp/example/merkel/time#TimeInterval> (<http://aspectowl.xyz/evaluation/odp/example/merkel/time#TimeInterval>)
+
+SubClassOf(<http://aspectowl.xyz/evaluation/odp/example/merkel/time#TimeInterval> <http://aspectowl.xyz/evaluation/odp/example/merkel/time#TemporalEntity>)
+
+
+)
